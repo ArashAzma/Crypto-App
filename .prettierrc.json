@@ -1,0 +1,17 @@
+{
+  "bracketSpacing": false,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "printWidth": 80,
+  "arrowParens": "always",
+  "jsxSingleQuote": true,
+  "semi": true,
+  "tabWidth": 2,
+  "endOfLine": "auto",
+  "[typescript]": {
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": false
+  },
+  "editor.formatOnPaste": true,
+  "editor.formatOnSave": true
+}

@@ -1,0 +1,170 @@
+{
+  "root": true,
+  "ignorePatterns": ["metro.config.js", "config-plugins/*.js"],
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "react-native/react-native": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "@react-native-community",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "react",
+    "react-native",
+    "@typescript-eslint",
+    "import",
+    "react-hooks"
+  ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      },
+      "typescript": {}
+    },
+    "import/ignore": ["node_modules/react-native/index\\.js$"],
+    "react": {
+      "version": "detect"
+    }
+  },
+  "rules": {
+    "import/named": "off",
+    "import/namespace": "off",
+    "import/default": "off",
+    "import/no-named-as-default-member": "off",
+    "indent": "off",
+    "@typescript-eslint/indent": "off",
+
+    "no-undef": "off",
+
+    "react/jsx-filename-extension": ["error", {"extensions": [".tsx", ".jsx"]}],
+
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": [
+      "error",
+      {"functions": false, "classes": true, "variables": false}
+    ],
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"],
+
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+
+    "camelcase": "off",
+    "@typescript-eslint/naming-convention": "off",
+
+    "no-plusplus": "off",
+
+    "lines-between-class-members": "off",
+    "@typescript-eslint/lines-between-class-members": "off",
+
+    "no-continue": "off",
+
+    "@typescript-eslint/no-empty-interface": "warn",
+
+    "react/jsx-props-no-spreading": "off",
+
+    "react/destructuring-assignment": "off",
+
+    "global-require": "off",
+
+    "no-restricted-exports": "off",
+
+    "import/prefer-default-export": "off",
+
+    "@typescript-eslint/no-unused-expressions": [
+      "error",
+      {
+        "allowShortCircuit": true,
+        "allowTernary": true,
+        "allowTaggedTemplates": true
+      }
+    ],
+
+    "no-catch-shadow": "off",
+
+    "react/require-default-props": "off",
+
+    "@typescript-eslint/ban-ts-comment": "off",
+
+    "no-bitwise": "off",
+
+    "@typescript-eslint/no-unused-vars": "warn",
+
+    "import/no-extraneous-dependencies": ["off", {"devDependencies": true}],
+
+    "import/no-unresolved": "off",
+
+    "no-restricted-syntax": "off",
+
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          ["sibling", "parent", "index"],
+          "object",
+          "type",
+          "unknown"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        },
+        "pathGroupsExcludedImportTypes": ["builtin"]
+      }
+    ],
+
+    "no-case-declarations": "off",
+
+    "react/jsx-no-bind": "off",
+
+    "default-case-last": "off",
+
+    "react/style-prop-object": "off",
+
+    "@typescript-eslint/no-namespace": "off",
+
+    "react/no-array-index-key": "off",
+
+    "react-hooks/exhaustive-deps": "off"
+  },
+  "globals": {
+    "Struct": "readonly",
+    "Types": "readonly",
+    "JSX": "readonly",
+    "Paho": "readonly",
+    "ApiTypes": "readonly",
+    "DatabaseEntity": "readonly",
+    "Realm": "readonly"
+  }
+}

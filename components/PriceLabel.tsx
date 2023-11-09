@@ -6,7 +6,8 @@ import {WHITE} from '../utils/Theme';
 type PriceLabelProps = {price: number};
 function PriceLabel(props: PriceLabelProps) {
   const {price} = props;
-  return <Text style={styles.price}>${price}</Text>;
+  const fixedPrice = price.toFixed(7);
+  return <Text style={styles.price}>${fixedPrice}</Text>;
 }
 
 const styles = StyleSheet.create({

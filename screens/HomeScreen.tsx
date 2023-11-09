@@ -36,8 +36,6 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   continer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: BLACK,
   },
 });

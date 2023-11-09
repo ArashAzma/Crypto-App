@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
 
 import CoinItem from './CoinItem';
 import {WHITE} from '../utils/Theme';
@@ -12,13 +12,11 @@ function CoinList(props: CoinsType) {
     price: Number(data[key as keyof typeof data]),
   }));
   return (
-    <View style={styles.continer}>
-      <FlatList
-        data={coinDataArray}
-        contentContainerStyle={styles.flatlist}
-        renderItem={({item}) => <CoinItem coin={item} />}
-      />
-    </View>
+    <FlatList
+      data={coinDataArray}
+      contentContainerStyle={styles.flatlist}
+      renderItem={({item}) => <CoinItem coin={item} />}
+    />
   );
 }
 
@@ -27,13 +25,10 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor: BLACK,
-    // backgroundColor: 'red',
   },
   flatlist: {
     alignItems: 'center',
     justifyContent: 'center',
-    // width: screenWidth,
   },
   text: {color: WHITE},
 });

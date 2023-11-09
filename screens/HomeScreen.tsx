@@ -1,6 +1,7 @@
 import {useQuery} from '@tanstack/react-query';
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 import CoinList from '../components/CoinList';
 import Error from '../components/Error';
@@ -25,10 +26,9 @@ function HomeScreen() {
     return <Error message={error.message} />;
   }
   return (
-    <View style={styles.continer}>
-      <Text>HomeScreen</Text>
+    <SafeAreaView style={styles.continer}>
       <CoinList data={coinsData} />
-    </View>
+    </SafeAreaView>
   );
 }
 

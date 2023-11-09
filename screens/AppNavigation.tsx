@@ -4,9 +4,9 @@ import React from 'react';
 
 import HomeScreen from './HomeScreen';
 import ProfileScreen from './ProfileScreen';
+const Stack = createNativeStackNavigator();
 
 function AppNavigation() {
-  const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>

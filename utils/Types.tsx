@@ -1,1 +1,1 @@
-export type coins = {[key: string]: number};
+export type CoinsType = {[key: string]: number};

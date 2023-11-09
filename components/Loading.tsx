@@ -3,10 +3,10 @@ import {ActivityIndicator, StyleSheet, View} from 'react-native';
 
 import {BLACK} from '../utils/Theme';
 
-type LoadingType = {subject: 'initial loading' | undefined};
+type LoadingProps = {subject?: 'initial loading' | 'normal'};
 
-const Loading = (props: LoadingType) => {
-  const {subject} = props;
+const Loading = (props: LoadingProps) => {
+  const {subject = 'normal'} = props;
   return (
     <View
       style={subject === 'initial loading' ? styles.container : styles.loader}

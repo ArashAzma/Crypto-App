@@ -4,15 +4,14 @@ type MethodType = 'POST' | 'GET';
 
 function getOptions(method: MethodType, body?: string) {
   if (method === 'GET') return;
-  else
-    return {
-      method,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body,
-    };
+  return {
+    method,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body,
+  };
 }
 
 async function apiCall(

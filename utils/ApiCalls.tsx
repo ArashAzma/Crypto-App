@@ -1,29 +1,37 @@
-const URL_BASE = 'http://localhost:4235/';
+const URL_BASE = 'http://192.168.1.100:4235/';
 
 type MethodType = 'POST' | 'GET';
 
 function getOptions(method: MethodType, body?: string) {
   if (method === 'GET') return;
-  else
-    return {
-      method,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body,
-    };
+  return {
+    method,
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body,
+  };
 }
+
 async function apiCall(
   urlEndpoint: string,
   method: MethodType = 'GET',
   body?: string,
 ) {
-  const options = getOptions(method, body);
-  const response = await fetch(urlEndpoint, options);
-  const resultJSON = await response.json();
-  if (resultJSON.status !== 'success') {
-    throw new Error('there was an Error');
+  try {
+    const options = getOptions(method, body);
+    const response = await fetch(urlEndpoint, options);
+    const resultJSON = await response.json();
+    return resultJSON;
+  } catch (error) {
+    console.log('Error: ', error);
+    throw error;
   }
-  return {status: resultJSON.status, data: resultJSON.data};
+}
+
+export async function getCoinList() {
+  const Url = URL_BASE + 'coins';
+  const data = await apiCall(Url);
+  return data.coins;
 }

@@ -16,7 +16,7 @@ function PercentageLabel(props: PercentageLabelProps) {
         color={isGrowth ? GREEN : RED}
         style={styles.arrow}
       />
-      <Text style={{...styles.Percentage, color: isGrowth ? GREEN : RED}}>
+      <Text style={[styles.percentage, {color: isGrowth ? GREEN : RED}]}>
         {percentage}
       </Text>
     </View>
@@ -32,6 +32,6 @@ const styles = StyleSheet.create({
   arrow: {
     marginHorizontal: 3,
   },
-  Percentage: {color: GREEN, fontWeight: '400', fontSize: 14},
+  percentage: {color: GREEN, fontWeight: '400', fontSize: 14},
 });
 export default PercentageLabel;

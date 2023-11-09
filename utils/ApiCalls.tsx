@@ -1,4 +1,5 @@
-const URL_BASE = 'http://192.168.1.100:4235/';
+// const URL_BASE = 'http://192.168.1.100:4235/';
+const URL_BASE = 'http://10.0.0.11:4235/';
 
 type MethodType = 'POST' | 'GET';
 

@@ -3,9 +3,10 @@ import {FlatList, StyleSheet} from 'react-native';
 
 import CoinItem from './CoinItem';
 import {WHITE} from '../utils/Theme';
-import {type CoinsType} from '../utils/Types';
 
-function CoinList(props: CoinsType) {
+type CoinListProps = {[key: string]: number};
+
+function CoinList(props: CoinListProps) {
   const {data} = props;
   const coinDataArray = Object.keys(data).map((key: string) => ({
     name: key,
@@ -21,11 +22,6 @@ function CoinList(props: CoinsType) {
 }
 
 const styles = StyleSheet.create({
-  continer: {
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   flatlist: {
     alignItems: 'center',
     justifyContent: 'center',

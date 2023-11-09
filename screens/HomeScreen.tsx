@@ -18,6 +18,7 @@ function HomeScreen() {
   } = useQuery({
     queryKey: ['coin', 'list'],
     queryFn: getCoinList,
+    refetchInterval: 30000,
   });
   if (isLoading) {
     return <Loading subject='initial loading' />;

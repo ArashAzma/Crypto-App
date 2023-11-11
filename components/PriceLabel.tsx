@@ -11,6 +11,10 @@ function PriceLabel(props: PriceLabelProps) {
 }
 
 const styles = StyleSheet.create({
-  price: {color: WHITE, fontWeight: '100', fontSize: 12},
+  price: {
+    color: WHITE,
+    fontWeight: '100',
+    fontSize: 12,
+  },
 });
 export default PriceLabel;

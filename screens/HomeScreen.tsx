@@ -13,7 +13,7 @@ function HomeScreen() {
   const {
     isLoading,
     isError,
-    data: coinsData,
+    data: coinsData = {},
     error,
   } = useQuery({
     queryKey: ['coin', 'list'],
@@ -24,7 +24,8 @@ function HomeScreen() {
     return <Loading subject='initial loading' />;
   }
   if (isError) {
-    return <Error message={error.message} />;
+    const errorMessage = (error as Error).message;
+    return <Error message={errorMessage} />;
   }
   return (
     <SafeAreaView style={styles.continer}>
@@ -33,10 +34,11 @@ function HomeScreen() {
   );
 }
 
-export default HomeScreen;
 const styles = StyleSheet.create({
   continer: {
     flex: 1,
     backgroundColor: BLACK,
   },
 });
+
+export default HomeScreen;

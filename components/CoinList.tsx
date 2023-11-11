@@ -4,7 +4,9 @@ import {FlatList, StyleSheet} from 'react-native';
 import CoinItem from './CoinItem';
 import {WHITE} from '../utils/Theme';
 
-type CoinListProps = {[key: string]: number};
+type CoinListProps = {
+  data: {[key: string]: number};
+};
 
 function CoinList(props: CoinListProps) {
   const {data} = props;
@@ -12,6 +14,7 @@ function CoinList(props: CoinListProps) {
     name: key,
     price: Number(data[key as keyof typeof data]),
   }));
+
   return (
     <FlatList
       data={coinDataArray}
@@ -26,7 +29,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  text: {color: WHITE},
+  text: {
+    color: WHITE,
+  },
 });
 
 export default CoinList;

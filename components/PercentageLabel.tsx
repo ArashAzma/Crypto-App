@@ -32,6 +32,10 @@ const styles = StyleSheet.create({
   arrow: {
     marginHorizontal: 3,
   },
-  percentage: {color: GREEN, fontWeight: '400', fontSize: 14},
+  percentage: {
+    color: GREEN,
+    fontWeight: '400',
+    fontSize: 14,
+  },
 });
 export default PercentageLabel;

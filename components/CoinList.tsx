@@ -1,18 +1,21 @@
+import {type ObservablePrimitive} from '@legendapp/state';
+import {useObservable, useSelector} from '@legendapp/state/react';
 import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 
 import CoinItem from './CoinItem';
+import {state$} from '../GlobalState';
 import {WHITE} from '../utils/Theme';
 
-type CoinListProps = {
-  data: {[key: string]: number};
-};
+// type CoinListProps = {
+//   data: ObservablePrimitive<{[key: string]: number} | null>;
+// };
 
-function CoinList(props: CoinListProps) {
-  const {data} = props;
-  const coinDataArray = Object.keys(data).map((key: string) => ({
+function CoinList() {
+  const data$ = useSelector(state$.coins);
+  const coinDataArray = Object.keys(data$).map((key: string) => ({
     name: key,
-    price: Number(data[key as keyof typeof data]),
+    price: Number(data$[key as keyof typeof data$]),
   }));
 
   return (

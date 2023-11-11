@@ -10,16 +10,12 @@ import {getCoinList} from '../utils/ApiCalls';
 import {BLACK} from '../utils/Theme';
 
 function HomeScreen() {
-  const {
-    isLoading,
-    isError,
-    data: coinsData = {},
-    error,
-  } = useQuery({
+  const {isLoading, isError, error} = useQuery({
     queryKey: ['coin', 'list'],
     queryFn: getCoinList,
-    refetchInterval: 30000,
+    refetchInterval: 3000,
   });
+
   if (isLoading) {
     return <Loading subject='initial loading' />;
   }
@@ -29,7 +25,7 @@ function HomeScreen() {
   }
   return (
     <SafeAreaView style={styles.continer}>
-      <CoinList data={coinsData} />
+      <CoinList />
     </SafeAreaView>
   );
 }

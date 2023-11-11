@@ -1,8 +1,9 @@
+import {state$} from '../GlobalState';
+
 const URL_BASE = 'http://192.168.1.100:4235/';
 // const URL_BASE = 'http://10.0.0.11:4235/';
 
 type MethodType = 'POST' | 'GET';
-type GetCoinListReturnType = Promise<{[key: string]: number}>;
 
 function getOptions(method: MethodType, body?: string) {
   if (method === 'GET') return;
@@ -31,9 +32,10 @@ async function apiCall(
     throw error as Error;
   }
 }
-
-export async function getCoinList(): GetCoinListReturnType {
+export async function getCoinList() {
+  console.log('---getCoinList---');
   const Url = URL_BASE + 'coins';
   const data = await apiCall(Url);
-  return data.coins;
+  state$.coins.set(data.coins);
+  return null;
 }

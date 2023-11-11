@@ -4,10 +4,11 @@ import {View, Text, StyleSheet} from 'react-native';
 
 import {GREEN, RED} from '../utils/Theme';
 
-type PercentageLabelProps = {percentage: number; isGrowth: boolean};
+type PercentageLabelProps = {percentage: number};
 
 function PercentageLabel(props: PercentageLabelProps) {
-  const {percentage, isGrowth} = props;
+  const {percentage} = props;
+  const isGrowth = percentage >= 0 ? true : false;
   return (
     <View style={styles.continer}>
       <AntDesign
@@ -17,7 +18,7 @@ function PercentageLabel(props: PercentageLabelProps) {
         style={styles.arrow}
       />
       <Text style={[styles.percentage, {color: isGrowth ? GREEN : RED}]}>
-        {percentage}
+        {percentage}%
       </Text>
     </View>
   );

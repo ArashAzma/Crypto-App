@@ -1,8 +1,10 @@
-import React, {useEffect, useRef} from 'react';
+import {useObservable, Computed, useSelector} from '@legendapp/state/react';
+import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 import PercentageLabel from './PercentageLabel';
 import PriceLabel from './PriceLabel';
+import {usePreviousValue} from '../hooks/PerviousProps';
 import {screenWidth} from '../utils/Dimensions';
 import {DARK_BLUE, WHITE} from '../utils/Theme';
 
@@ -10,27 +12,24 @@ type CoinItemProps = {coin: {name: string; price: number}};
 
 function CoinItem(props: CoinItemProps) {
   const {coin} = props;
+  const price = useSelector(coin.price);
   const prevProps = usePreviousValue(props);
-  function usePreviousValue<T>(value: T): T | undefined {
-    const ref = useRef<T>();
-    useEffect(() => {
-      ref.current = value;
-    });
-    return ref.current;
-  }
-  // will be used later
+  const price$ = useObservable(coin.price);
+  const percentage$ = useSelector(calculatePercentage());
+  console.log(percentage$, 'boom');
+
   function calculatePercentage() {
-    const difference = coin.price - (prevProps?.coin.price ?? 0);
-    console.log(difference);
-    return difference.toFixed(2);
+    const difference =
+      (coin.price - (prevProps?.coin.price ?? coin.price)) / 100;
+    return parseInt(difference.toFixed(2), 10);
   }
+
   return (
     <View style={styles.continer}>
       <Text style={styles.name}>{coin.name}</Text>
       <View style={styles.priceAndPercentage}>
-        <PriceLabel price={coin.price} />
-        {/*TODO: Using dynamic data */}
-        <PercentageLabel percentage={22.3} isGrowth={false} />
+        <PriceLabel price={price} />
+        <PercentageLabel percentage={percentage$} />
       </View>
     </View>
   );

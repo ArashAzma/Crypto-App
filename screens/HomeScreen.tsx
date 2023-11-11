@@ -1,6 +1,7 @@
 import {useQuery} from '@tanstack/react-query';
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 import CoinList from '../components/CoinList';
 import Error from '../components/Error';
@@ -12,32 +13,32 @@ function HomeScreen() {
   const {
     isLoading,
     isError,
-    data: coinsData,
+    data: coinsData = {},
     error,
   } = useQuery({
     queryKey: ['coin', 'list'],
     queryFn: getCoinList,
+    refetchInterval: 30000,
   });
   if (isLoading) {
     return <Loading subject='initial loading' />;
   }
   if (isError) {
-    return <Error message={error.message} />;
+    const errorMessage = (error as Error).message;
+    return <Error message={errorMessage} />;
   }
   return (
-    <View style={styles.continer}>
-      <Text>HomeScreen</Text>
+    <SafeAreaView style={styles.continer}>
       <CoinList data={coinsData} />
-    </View>
+    </SafeAreaView>
   );
 }
 
-export default HomeScreen;
 const styles = StyleSheet.create({
   continer: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: BLACK,
   },
 });
+
+export default HomeScreen;

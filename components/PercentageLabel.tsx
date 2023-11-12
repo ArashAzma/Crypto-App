@@ -9,6 +9,7 @@ type PercentageLabelProps = {percentage: number};
 function PercentageLabel(props: PercentageLabelProps) {
   const {percentage} = props;
   const isGrowth = percentage >= 0 ? true : false;
+
   return (
     <View style={styles.continer}>
       <AntDesign

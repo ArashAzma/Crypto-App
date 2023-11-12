@@ -1,4 +1,4 @@
-import {useObservable, Computed, useSelector} from '@legendapp/state/react';
+import {Computed} from '@legendapp/state/react';
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
@@ -12,24 +12,26 @@ type CoinItemProps = {coin: {name: string; price: number}};
 
 function CoinItem(props: CoinItemProps) {
   const {coin} = props;
-  const price = useSelector(coin.price);
   const prevProps = usePreviousValue(props);
-  const price$ = useObservable(coin.price);
-  const percentage$ = useSelector(calculatePercentage());
-  console.log(percentage$, 'boom');
 
   function calculatePercentage() {
     const difference =
       (coin.price - (prevProps?.coin.price ?? coin.price)) / 100;
-    return parseInt(difference.toFixed(2), 10);
+    return Number(difference.toPrecision(1));
   }
 
   return (
     <View style={styles.continer}>
       <Text style={styles.name}>{coin.name}</Text>
       <View style={styles.priceAndPercentage}>
-        <PriceLabel price={price} />
-        <PercentageLabel percentage={percentage$} />
+        <Computed>
+          {() => (
+            <>
+              <PriceLabel price={coin.price} />
+              <PercentageLabel percentage={calculatePercentage()} />
+            </>
+          )}
+        </Computed>
       </View>
     </View>
   );
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor: DARK_BLUE,
     paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingVertical: 20,
     marginBottom: 12,
     borderRadius: 18,
   },
@@ -56,4 +58,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+
 export default CoinItem;

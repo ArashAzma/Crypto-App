@@ -33,7 +33,6 @@ async function apiCall(
   }
 }
 export async function getCoinList() {
-  console.log('---getCoinList---');
   const Url = URL_BASE + 'coins';
   const data = await apiCall(Url);
   state$.coins.set(data.coins);

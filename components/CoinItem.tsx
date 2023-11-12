@@ -1,38 +1,40 @@
-import {Computed} from '@legendapp/state/react';
+import {ObservableBaseFns} from '@legendapp/state';
+import {Computed, useComputed, useObservable} from '@legendapp/state/react';
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 import PercentageLabel from './PercentageLabel';
 import PriceLabel from './PriceLabel';
-import {usePreviousValue} from '../hooks/PerviousProps';
 import {screenWidth} from '../utils/Dimensions';
 import {DARK_BLUE, WHITE} from '../utils/Theme';
 
-type CoinItemProps = {coin: {name: string; price: number}};
+type CoinItemProps = {
+  coin: ObservableBaseFns<{name: string; price: number}>;
+};
 
 function CoinItem(props: CoinItemProps) {
   const {coin} = props;
-  const prevProps = usePreviousValue(props);
-
-  function calculatePercentage() {
-    const difference =
-      (coin.price - (prevProps?.coin.price ?? coin.price)) / 100;
-    return Number(difference.toPrecision(1));
-  }
+  const percentage$ = useObservable({percentage: 0});
+  coin.onChange(({value, getPrevious}) => {
+    const calculatedPercentage =
+      (value.price - (getPrevious().price ?? value.price)) / 100;
+    percentage$.percentage.set(Number(calculatedPercentage.toPrecision(2)));
+  });
+  const computedPercentage = useComputed(() => percentage$.get().percentage);
 
   return (
     <View style={styles.continer}>
-      <Text style={styles.name}>{coin.name}</Text>
-      <View style={styles.priceAndPercentage}>
-        <Computed>
-          {() => (
-            <>
-              <PriceLabel price={coin.price} />
-              <PercentageLabel percentage={calculatePercentage()} />
-            </>
-          )}
-        </Computed>
-      </View>
+      <Computed>
+        {() => (
+          <>
+            <Text style={styles.name}>{coin.get().name}</Text>
+            <View style={styles.priceAndPercentage}>
+              <PriceLabel price={coin.get().price} />
+              <PercentageLabel percentage={computedPercentage.get()} />
+            </View>
+          </>
+        )}
+      </Computed>
     </View>
   );
 }

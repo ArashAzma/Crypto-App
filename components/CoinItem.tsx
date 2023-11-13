@@ -15,6 +15,7 @@ type CoinItemProps = {
 function CoinItem(props: CoinItemProps) {
   const {coin} = props;
   const percentage$ = useObservable({percentage: 0});
+
   coin.onChange(({value, getPrevious}) => {
     const calculatedPercentage =
       (value.price - (getPrevious().price ?? value.price)) / 100;
@@ -61,4 +62,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CoinItem;
+export default React.memo(CoinItem);

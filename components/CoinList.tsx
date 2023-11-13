@@ -7,7 +7,7 @@ import {state$} from '../GlobalState';
 import {WHITE} from '../utils/Theme';
 
 function CoinList() {
-  const coinDataArray = useComputed(() => {
+  const coinDataArray$ = useComputed(() => {
     const data = state$.coins.get();
     return Object.keys(data).map((key: string) => ({
       name: key,
@@ -18,10 +18,10 @@ function CoinList() {
     <Computed>
       {() => (
         <FlatList
-          data={coinDataArray.get()}
+          data={coinDataArray$.get()}
           contentContainerStyle={styles.flatlist}
           renderItem={({index}) => {
-            return <CoinItem coin={coinDataArray[index]} />;
+            return <CoinItem coin$={coinDataArray$[index]} />;
           }}
         />
       )}

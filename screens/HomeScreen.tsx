@@ -1,20 +1,27 @@
 import {useQuery} from '@tanstack/react-query';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import CoinList from '../components/CoinList';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
+import {state$} from '../GlobalState';
 import {getCoinList} from '../utils/ApiCalls';
 import {BLACK} from '../utils/Theme';
 
 function HomeScreen() {
-  const {isLoading, isError, error} = useQuery({
+  const {data, isSuccess, isLoading, isError, error} = useQuery({
     queryKey: ['coin', 'list'],
     queryFn: getCoinList,
     refetchInterval: 3000,
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      state$.coinToPriceMap.set(data);
+    }
+  }, [isSuccess, data]);
 
   if (isLoading) {
     return <Loading subject='initial loading' />;

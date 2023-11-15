@@ -13,9 +13,10 @@ import PercentageLabel from './PercentageLabel';
 import PriceLabel from './PriceLabel';
 import {screenWidth} from '../utils/Dimensions';
 import {DARK_BLUE, GREEN, RED, WHITE} from '../utils/Theme';
+import {Coin} from '../utils/Types';
 
 type CoinItemProps = {
-  coin$: ObservableBaseFns<{name: string; price: number}>;
+  coin$: ObservableBaseFns<Coin>;
 };
 
 function CoinItem(props: CoinItemProps) {
@@ -24,31 +25,35 @@ function CoinItem(props: CoinItemProps) {
 
   useObserve(coin$, (event) => {
     if (!event.value || !event.previous) return;
-    const calculatedPercentage =
-      (coin$.get().price - (event.previous.price ?? coin$.get().price)) / 100;
+    const {price} = coin$.get();
+    const previousPrice = event.previous.price;
+    const calculatedPercentage = getDifferencePercent(previousPrice, price);
     itemState$.percentage.set(Number(calculatedPercentage.toPrecision(2)));
     itemState$.color.set(calculatedPercentage > 0 ? GREEN : RED);
-    setTimeout(() => itemState$.color.set(DARK_BLUE), 3000);
   });
 
   const computedPercentage$ = useComputed(() => itemState$.get().percentage);
   const computedPrice$ = useComputed(() => coin$.get().price);
 
+  function getDifferencePercent(x1: number, x2: number) {
+    const deltaX = x2 - x1;
+
+    return (deltaX / x1) * 100;
+  }
+
   return (
-    <View style={[styles.continer]}>
+    <View style={styles.container}>
       <Computed>
         {() => (
-          <>
-            <LinearGradient
-              style={styles.colorContainer}
-              colors={[itemState$.get().color, 'transparent']}
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-            />
-            <Text style={styles.name}>{coin$.peek().name}</Text>
-          </>
+          <LinearGradient
+            style={styles.colorContainer}
+            colors={[itemState$.get().color, 'transparent']}
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 0}}
+          />
         )}
       </Computed>
+      <Text style={styles.name}>{coin$.peek().name}</Text>
       <View style={styles.priceAndPercentage}>
         <PriceLabel computedPrice$={computedPrice$} />
         <PercentageLabel percentage$={computedPercentage$} />
@@ -65,7 +70,7 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     opacity: 0.5,
   },
-  continer: {
+  container: {
     flexDirection: 'row',
     width: screenWidth * 0.9,
     height: 70,

@@ -1,7 +1,5 @@
-import {state$} from '../GlobalState';
-
-const URL_BASE = 'http://192.168.1.100:4235/';
-// const URL_BASE = 'http://10.0.0.11:4235/';
+// const URL_BASE = 'http://192.168.1.100:4235/';
+const URL_BASE = 'http://10.0.0.11:4235/';
 
 type MethodType = 'POST' | 'GET';
 
@@ -35,6 +33,5 @@ async function apiCall(
 export async function getCoinList() {
   const Url = URL_BASE + 'coins';
   const data = await apiCall(Url);
-  state$.coins.set(data.coins);
-  return null;
+  return data.coins;
 }

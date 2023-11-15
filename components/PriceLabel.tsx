@@ -1,5 +1,5 @@
 import {ObservableComputed} from '@legendapp/state';
-import {Computed} from '@legendapp/state/react';
+import {useSelector} from '@legendapp/state/react';
 import React from 'react';
 import {Text, StyleSheet} from 'react-native';
 
@@ -11,16 +11,9 @@ type PriceLabelProps = {
 
 function PriceLabel(props: PriceLabelProps) {
   const {computedPrice$} = props;
+  const computedPrice = useSelector(computedPrice$);
 
-  return (
-    <Computed>
-      {() => (
-        <Text style={styles.price}>
-          ${computedPrice$.get().toPrecision(10)}
-        </Text>
-      )}
-    </Computed>
-  );
+  return <Text style={styles.price}>${computedPrice.toPrecision(10)}</Text>;
 }
 
 const styles = StyleSheet.create({

@@ -4,5 +4,5 @@ enableReactTracking({
   auto: true,
 });
 export const state$ = observable({
-  coins: {},
+  coinToPriceMap: {},
 });

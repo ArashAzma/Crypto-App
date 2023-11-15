@@ -2,6 +2,7 @@ import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 
 import CoinItem from './CoinItem';
+import FearAndGreedIndex from './FearAndGreedIndex';
 import {WHITE} from '../utils/Theme';
 
 type CoinListProps = {
@@ -19,6 +20,7 @@ function CoinList(props: CoinListProps) {
     <FlatList
       data={coinDataArray}
       contentContainerStyle={styles.flatlist}
+      ListHeaderComponent={<FearAndGreedIndex />}
       renderItem={({item}) => <CoinItem coin={item} />}
     />
   );

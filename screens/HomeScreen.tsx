@@ -6,10 +6,14 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import CoinList from '../components/CoinList';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
+import useWebSocket from '../hooks/useWebSocket';
 import {getCoinList} from '../utils/ApiCalls';
 import {BLACK} from '../utils/Theme';
 
 function HomeScreen() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const {getCoinChangeFromSocket} = useWebSocket();
+
   const {
     isLoading,
     isError,
@@ -20,6 +24,7 @@ function HomeScreen() {
     queryFn: getCoinList,
     refetchInterval: 30000,
   });
+
   if (isLoading) {
     return <Loading subject='initial loading' />;
   }
@@ -37,6 +42,8 @@ function HomeScreen() {
 const styles = StyleSheet.create({
   continer: {
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: BLACK,
   },
 });

@@ -6,4 +6,5 @@ enableReactTracking({
 export const state$ = observable({
   coinToPriceMap: {},
   fearAndGreedIndex: 0,
+  pinnedCoin: 'bitcoin',
 });

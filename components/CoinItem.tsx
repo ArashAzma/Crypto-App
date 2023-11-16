@@ -1,52 +1,83 @@
-import React, {useEffect, useRef} from 'react';
+import {ObservableBaseFns} from '@legendapp/state';
+import {
+  Computed,
+  useComputed,
+  useObservable,
+  useObserve,
+} from '@legendapp/state/react';
+import {LinearGradient} from 'expo-linear-gradient';
+import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 import PercentageLabel from './PercentageLabel';
 import PriceLabel from './PriceLabel';
 import {screenWidth} from '../utils/Dimensions';
-import {DARK_BLUE, WHITE} from '../utils/Theme';
+import {DARK_BLUE, GREEN, RED, WHITE} from '../utils/Theme';
+import {Coin} from '../utils/Types';
 
-type CoinItemProps = {coin: {name: string; price: number}};
+type CoinItemProps = {
+  coin$: ObservableBaseFns<Coin>;
+};
 
 function CoinItem(props: CoinItemProps) {
-  const {coin} = props;
-  const prevProps = usePreviousValue(props);
-  function usePreviousValue<T>(value: T): T | undefined {
-    const ref = useRef<T>();
-    useEffect(() => {
-      ref.current = value;
-    });
-    return ref.current;
+  const {coin$} = props;
+  const item$ = useObservable({percentage: 0, color: DARK_BLUE});
+
+  useObserve(coin$, (event) => {
+    if (!event.value || !event.previous) return;
+    const {price} = coin$.get();
+    const previousPrice = event.previous.price;
+    const calculatedPercentage = getDifferencePercent(previousPrice, price);
+    item$.percentage.set(Number(calculatedPercentage.toPrecision(2)));
+    item$.color.set(calculatedPercentage > 0 ? GREEN : RED);
+  });
+
+  const computedPercentage$ = useComputed(() => item$.get().percentage);
+  const computedPrice$ = useComputed(() => coin$.get().price);
+
+  function getDifferencePercent(x1: number, x2: number) {
+    const deltaX = x2 - x1;
+
+    return (deltaX / x1) * 100;
   }
-  // will be used later
-  function calculatePercentage() {
-    const difference = coin.price - (prevProps?.coin.price ?? 0);
-    console.log(difference);
-    return difference.toFixed(2);
-  }
+
   return (
-    <View style={styles.continer}>
-      <Text style={styles.name}>{coin.name}</Text>
+    <View style={styles.container}>
+      <Computed>
+        <LinearGradient
+          style={styles.colorContainer}
+          colors={[item$.get().color, 'transparent']}
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}
+        />
+      </Computed>
+      <Text style={styles.name}>{coin$.peek().name}</Text>
       <View style={styles.priceAndPercentage}>
-        <PriceLabel price={coin.price} />
-        {/*TODO: Using dynamic data */}
-        <PercentageLabel percentage={22.3} isGrowth={false} />
+        <PriceLabel computedPrice$={computedPrice$} />
+        <PercentageLabel percentage$={computedPercentage$} />
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  continer: {
+  colorContainer: {
+    position: 'absolute',
+    width: screenWidth * 0.5,
+    height: '100%',
+    borderRadius: 24,
+    opacity: 0.5,
+  },
+  container: {
     flexDirection: 'row',
     width: screenWidth * 0.9,
+    height: 70,
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: DARK_BLUE,
     paddingHorizontal: 20,
-    paddingVertical: 15,
     marginBottom: 12,
-    borderRadius: 18,
+    borderRadius: 24,
   },
   priceAndPercentage: {
     justifyContent: 'space-between',
@@ -57,4 +88,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-export default CoinItem;
+
+export default React.memo(CoinItem);

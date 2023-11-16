@@ -1,17 +1,57 @@
-import {Computed} from '@legendapp/state/react';
+import {useObserve} from '@legendapp/state/react';
+import {LinearGradient} from 'expo-linear-gradient';
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View, Text} from 'react-native';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
 
 import {state$} from '../GlobalState';
 import {screenWidth} from '../utils/Dimensions';
-import {WHITE} from '../utils/Theme';
+import {
+  GRADINET_GREEN,
+  GRADINET_GREEN2,
+  GRADINET_MIDDLE,
+  GRADINET_RED,
+  GRADINET_RED2,
+  WHITE,
+} from '../utils/Theme';
+
+const FEAR_BOX_WIDTH = screenWidth * 0.9;
 
 function FearAndGreedIndex() {
   const fear$ = state$.fearAndGreedIndex;
+  const offset = useSharedValue(0);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{translateX: offset.value}],
+  }));
+  useObserve(fear$, (event) => {
+    if (!event.value) return;
+    const fearIndex = fear$.get();
+    const coardinate = FEAR_BOX_WIDTH * fearIndex;
+    offset.value = withSpring(coardinate, {damping: 100});
+  });
 
   return (
     <View style={styles.container}>
-      <Computed>{() => <Text>{fear$.get().toPrecision(3)}</Text>}</Computed>
+      <Text style={styles.header}>Fear & Greed index</Text>
+      <LinearGradient
+        style={styles.gradinetContainer}
+        colors={[
+          GRADINET_RED2,
+          GRADINET_RED,
+          GRADINET_MIDDLE,
+          GRADINET_GREEN,
+          GRADINET_GREEN2,
+        ]}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}
+      >
+        <Animated.View style={[styles.lineContainer, animatedStyle]} />
+      </LinearGradient>
     </View>
   );
 }
@@ -20,12 +60,33 @@ export default FearAndGreedIndex;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: WHITE,
+    flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
-    width: screenWidth * 0.9,
-    height: 70,
-    borderRadius: 24,
+    gap: 10,
+  },
+  gradinetContainer: {
+    backgroundColor: WHITE,
+    width: FEAR_BOX_WIDTH,
+    height: 50,
+    borderRadius: 18,
     marginBottom: 18,
+  },
+  header: {
+    color: WHITE,
+    fontWeight: '900',
+  },
+  lineContainer: {
+    height: '100%',
+    width: 12,
+    backgroundColor: WHITE,
+    borderRadius: 20,
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.21,
+    shadowRadius: 6.65,
+    elevation: 5,
   },
 });

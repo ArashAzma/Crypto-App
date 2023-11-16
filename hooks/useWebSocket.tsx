@@ -1,8 +1,8 @@
 import {useEffect, useRef} from 'react';
 
 import {state$} from '../GlobalState';
-// const WEB_SOCKET_URL = 'ws://192.168.1.100:4236';r
-const WEB_SOCKET_URL = 'ws://10.0.0.11:4236';
+const WEB_SOCKET_URL = 'ws://192.168.1.100:4236';
+// const WEB_SOCKET_URL = 'ws://10.0.0.11:4236';
 
 const useWebSocket = () => {
   let socket = useRef<WebSocket>().current;
@@ -18,8 +18,11 @@ const useWebSocket = () => {
       const newData = JSON.parse(event.data);
       switch (newData.event) {
         case 'fearAndGreedIndex': {
-          console.log('Fear :', newData.index);
           state$.fearAndGreedIndex.set(newData.index);
+          break;
+        }
+        default: {
+          break;
         }
       }
     };

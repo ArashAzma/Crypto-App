@@ -23,6 +23,7 @@ function CoinList() {
       <FlatList
         data={coins$.get()}
         contentContainerStyle={styles.flatlist}
+        ListHeaderComponent={<FearAndGreedIndex />}
         renderItem={({index}) => {
           return <CoinItem coin$={coins$[index]} />;
         }}

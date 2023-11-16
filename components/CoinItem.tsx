@@ -44,14 +44,12 @@ function CoinItem(props: CoinItemProps) {
   return (
     <View style={styles.container}>
       <Computed>
-        {() => (
-          <LinearGradient
-            style={styles.colorContainer}
-            colors={[itemState$.get().color, 'transparent']}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 0}}
-          />
-        )}
+        <LinearGradient
+          style={styles.colorContainer}
+          colors={[itemState$.get().color, 'transparent']}
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}
+        />
       </Computed>
       <Text style={styles.name}>{coin$.peek().name}</Text>
       <View style={styles.priceAndPercentage}>

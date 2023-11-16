@@ -14,21 +14,19 @@ function PercentageLabel(props: PercentageLabelProps) {
   return (
     <View style={styles.continer}>
       <Computed>
-        {() => (
-          <>
-            <AntDesign
-              name={isGrowth.get() ? 'caretup' : 'caretdown'}
-              size={10}
-              color={isGrowth.get() ? GREEN : RED}
-              style={styles.arrow}
-            />
-            <Text
-              style={[styles.percentage, {color: isGrowth.get() ? GREEN : RED}]}
-            >
-              {percentage$.get()}%
-            </Text>
-          </>
-        )}
+        <>
+          <AntDesign
+            name={isGrowth.get() ? 'caretup' : 'caretdown'}
+            size={10}
+            color={isGrowth.get() ? GREEN : RED}
+            style={styles.arrow}
+          />
+          <Text
+            style={[styles.percentage, {color: isGrowth.get() ? GREEN : RED}]}
+          >
+            {percentage$.get()}%
+          </Text>
+        </>
       </Computed>
     </View>
   );

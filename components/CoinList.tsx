@@ -19,15 +19,13 @@ function CoinList() {
   });
   return (
     <Computed>
-      {() => (
-        <FlatList
-          data={coins$.get()}
-          contentContainerStyle={styles.flatlist}
-          renderItem={({index}) => {
-            return <CoinItem coin$={coins$[index]} />;
-          }}
-        />
-      )}
+      <FlatList
+        data={coins$.get()}
+        contentContainerStyle={styles.flatlist}
+        renderItem={({index}) => {
+          return <CoinItem coin$={coins$[index]} />;
+        }}
+      />
     </Computed>
   );
 }

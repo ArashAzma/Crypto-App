@@ -1,4 +1,8 @@
 import {observable} from '@legendapp/state';
-const State$ = observable({
-  coins: {},
+import {enableReactTracking} from '@legendapp/state/config/enableReactTracking';
+enableReactTracking({
+  auto: true,
+});
+export const state$ = observable({
+  coinToPriceMap: {},
 });

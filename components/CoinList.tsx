@@ -1,26 +1,32 @@
+import {ObservableComputed} from '@legendapp/state';
+import {Computed, useComputed} from '@legendapp/state/react';
 import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 
 import CoinItem from './CoinItem';
+import {state$} from '../GlobalState';
 import {WHITE} from '../utils/Theme';
+import {Coin} from '../utils/Types';
+import {keysOf} from '../utils/TypeScriptHelperFunctions';
 
-type CoinListProps = {
-  data: {[key: string]: number};
-};
-
-function CoinList(props: CoinListProps) {
-  const {data} = props;
-  const coinDataArray = Object.keys(data).map((key: string) => ({
-    name: key,
-    price: Number(data[key as keyof typeof data]),
-  }));
-
+function CoinList() {
+  const coins$: ObservableComputed<Coin[]> = useComputed(() => {
+    const coinToPriceMap = state$.coinToPriceMap.get();
+    return keysOf(coinToPriceMap).map((coinName) => ({
+      name: coinName,
+      price: Number(coinToPriceMap[coinName]),
+    }));
+  });
   return (
-    <FlatList
-      data={coinDataArray}
-      contentContainerStyle={styles.flatlist}
-      renderItem={({item}) => <CoinItem coin={item} />}
-    />
+    <Computed>
+      <FlatList
+        data={coins$.get()}
+        contentContainerStyle={styles.flatlist}
+        renderItem={({index}) => {
+          return <CoinItem coin$={coins$[index]} />;
+        }}
+      />
+    </Computed>
   );
 }
 
@@ -30,6 +36,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
+    color: WHITE,
+  },
+  renderText: {
     color: WHITE,
   },
 });

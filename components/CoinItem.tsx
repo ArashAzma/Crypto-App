@@ -21,18 +21,18 @@ type CoinItemProps = {
 
 function CoinItem(props: CoinItemProps) {
   const {coin$} = props;
-  const itemState$ = useObservable({percentage: 0, color: DARK_BLUE});
+  const item$ = useObservable({percentage: 0, color: DARK_BLUE});
 
   useObserve(coin$, (event) => {
     if (!event.value || !event.previous) return;
     const {price} = coin$.get();
     const previousPrice = event.previous.price;
     const calculatedPercentage = getDifferencePercent(previousPrice, price);
-    itemState$.percentage.set(Number(calculatedPercentage.toPrecision(2)));
-    itemState$.color.set(calculatedPercentage > 0 ? GREEN : RED);
+    item$.percentage.set(Number(calculatedPercentage.toPrecision(2)));
+    item$.color.set(calculatedPercentage > 0 ? GREEN : RED);
   });
 
-  const computedPercentage$ = useComputed(() => itemState$.get().percentage);
+  const computedPercentage$ = useComputed(() => item$.get().percentage);
   const computedPrice$ = useComputed(() => coin$.get().price);
 
   function getDifferencePercent(x1: number, x2: number) {
@@ -46,7 +46,7 @@ function CoinItem(props: CoinItemProps) {
       <Computed>
         <LinearGradient
           style={styles.colorContainer}
-          colors={[itemState$.get().color, 'transparent']}
+          colors={[item$.get().color, 'transparent']}
           start={{x: 0, y: 0}}
           end={{x: 1, y: 0}}
         />

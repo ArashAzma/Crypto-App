@@ -14,7 +14,7 @@ function CoinList() {
   const coins$: ObservableComputed<Coin[]> = useComputed(() => {
     const coinToPriceMap = state$.coinToPriceMap.get();
     return keysOf(coinToPriceMap).map((coinName) => ({
-      name: coinName,
+      name: coinName as string,
       price: Number(coinToPriceMap[coinName]),
     }));
   });

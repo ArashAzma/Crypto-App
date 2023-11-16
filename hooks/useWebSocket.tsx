@@ -1,15 +1,13 @@
-import {useEffect, useRef} from 'react';
+import {useEffect, useState} from 'react';
 
 import {state$} from '../GlobalState';
 const WEB_SOCKET_URL = 'ws://192.168.1.100:4236';
 // const WEB_SOCKET_URL = 'ws://10.0.0.11:4236';
 
 const useWebSocket = () => {
-  let socket = useRef<WebSocket>().current;
+  const [socket] = useState(() => new WebSocket(WEB_SOCKET_URL));
 
   useEffect(() => {
-    socket = new WebSocket(WEB_SOCKET_URL);
-
     socket.onopen = () => {
       console.log(`WebSocket connected to ${WEB_SOCKET_URL}`);
     };

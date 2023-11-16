@@ -31,8 +31,8 @@ function FearAndGreedIndex() {
   useObserve(fear$, (event) => {
     if (!event.value) return;
     const fearIndex = fear$.get();
-    const coardinate = FEAR_BOX_WIDTH * fearIndex;
-    offset.value = withSpring(coardinate, {damping: 100});
+    const coordinate = FEAR_BOX_WIDTH * fearIndex;
+    offset.value = withSpring(coordinate, {damping: 100});
   });
 
   return (

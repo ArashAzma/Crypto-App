@@ -11,11 +11,11 @@ import Animated, {
 import {state$} from '../GlobalState';
 import {screenWidth} from '../utils/Dimensions';
 import {
-  GRADINET_GREEN,
-  GRADINET_GREEN2,
-  GRADINET_MIDDLE,
-  GRADINET_RED,
-  GRADINET_RED2,
+  LIGHT_GREEN,
+  DARK_GREEN,
+  YELLOW,
+  LIGHT_RED,
+  DARK_RED,
   WHITE,
 } from '../utils/Theme';
 
@@ -40,13 +40,7 @@ function FearAndGreedIndex() {
       <Text style={styles.header}>Fear & Greed index</Text>
       <LinearGradient
         style={styles.gradinetContainer}
-        colors={[
-          GRADINET_RED2,
-          GRADINET_RED,
-          GRADINET_MIDDLE,
-          GRADINET_GREEN,
-          GRADINET_GREEN2,
-        ]}
+        colors={[DARK_RED, LIGHT_RED, YELLOW, LIGHT_GREEN, DARK_GREEN]}
         start={{x: 0, y: 0}}
         end={{x: 1, y: 0}}
       >

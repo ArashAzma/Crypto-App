@@ -4,6 +4,7 @@ import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 
 import CoinItem from './CoinItem';
+import PinnedCoin from './PinnedCoin';
 import {state$} from '../GlobalState';
 import {WHITE} from '../utils/Theme';
 import {Coin} from '../utils/Types';
@@ -22,6 +23,7 @@ function CoinList() {
       <FlatList
         data={coins$.get()}
         contentContainerStyle={styles.flatlist}
+        ListHeaderComponent={<PinnedCoin />}
         renderItem={({index}) => {
           return <CoinItem coin$={coins$[index]} />;
         }}

@@ -4,6 +4,7 @@ import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 
 import CoinItem from './CoinItem';
+import FearAndGreedIndex from './FearAndGreedIndex';
 import {state$} from '../GlobalState';
 import {WHITE} from '../utils/Theme';
 import {Coin} from '../utils/Types';
@@ -13,7 +14,7 @@ function CoinList() {
   const coins$: ObservableComputed<Coin[]> = useComputed(() => {
     const coinToPriceMap = state$.coinToPriceMap.get();
     return keysOf(coinToPriceMap).map((coinName) => ({
-      name: coinName,
+      name: coinName as string,
       price: Number(coinToPriceMap[coinName]),
     }));
   });
@@ -22,6 +23,7 @@ function CoinList() {
       <FlatList
         data={coins$.get()}
         contentContainerStyle={styles.flatlist}
+        ListHeaderComponent={<FearAndGreedIndex />}
         renderItem={({index}) => {
           return <CoinItem coin$={coins$[index]} />;
         }}

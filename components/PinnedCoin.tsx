@@ -10,23 +10,22 @@ import {WHITE} from '../utils/Theme';
 function PinnedCoin() {
   return (
     <View style={styles.container}>
-      <Chart />
       <Computed>
         <View>
-          <Text style={styles.text}>{state$.get().pinnedCoin}</Text>
+          <Text style={styles.text}>{state$.get().pinnedCoin.name}</Text>
         </View>
       </Computed>
+      <Chart />
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: screenWidth * 0.9,
     borderRadius: 26,
-    padding: 24,
     marginBottom: 14,
   },
   text: {

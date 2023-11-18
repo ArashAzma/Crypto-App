@@ -10,6 +10,12 @@ const useWebSocket = () => {
   useEffect(() => {
     socket.onopen = () => {
       console.log(`WebSocket connected to ${WEB_SOCKET_URL}`);
+      socket.send(
+        JSON.stringify({
+          event: 'subscribeCoinPrice',
+          coin: state$.get().pinnedCoin.name,
+        }),
+      );
     };
 
     socket.onmessage = (event) => {
@@ -17,6 +23,13 @@ const useWebSocket = () => {
       switch (newData.event) {
         case 'fearAndGreedIndex': {
           state$.fearAndGreedIndex.set(newData.index);
+          break;
+        }
+        case 'dollarPrice': {
+          break;
+        }
+        case 'coinPrice': {
+          state$.pinnedCoin.priceArray.push(newData.price);
           break;
         }
         default: {
@@ -34,11 +47,19 @@ const useWebSocket = () => {
     };
   }, []);
 
-  const getCoinChangeFromSocket = (message: string) => {
-    socket?.send(JSON.stringify(message));
+  const handleSubscribeToCoinChangeFromSocket = (
+    subscribe: 'subscribe' | 'unsubscribe',
+    coin: string,
+  ) => {
+    socket.send(
+      JSON.stringify({
+        event: subscribe ? 'subscribeCoinPrice' : 'unsubscribeCoinPrice',
+        coin,
+      }),
+    );
   };
 
-  return {getCoinChangeFromSocket};
+  return {handleSubscribeToCoinChangeFromSocket};
 };
 
 export default useWebSocket;

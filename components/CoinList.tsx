@@ -14,6 +14,7 @@ import {keysOf} from '../utils/TypeScriptHelperFunctions';
 function CoinList() {
   const coins$: ObservableComputed<Coin[]> = useComputed(() => {
     const coinToPriceMap = state$.coinToPriceMap.get();
+    // console.log(coinToPriceMap);
     return keysOf(coinToPriceMap).map((coinName) => ({
       name: coinName as string,
       price: Number(coinToPriceMap[coinName]),

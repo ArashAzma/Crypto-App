@@ -31,7 +31,7 @@ function Chart() {
         />
         <LineChart
           style={styles.chart}
-          data={state$.get().pinnedCoin.priceArray.slice(-20)}
+          data={state$.get().pinnedCoin.priceArray}
           svg={{
             stroke: GREEN,
             fill: GREEN,

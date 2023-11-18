@@ -30,6 +30,9 @@ const useWebSocket = () => {
           break;
         }
         case 'coinPrice': {
+          if (state$.pinnedCoin.priceArray.length >= 20) {
+            state$.pinnedCoin.priceArray.shift();
+          }
           state$.pinnedCoin.priceArray.push(newData.price);
           break;
         }

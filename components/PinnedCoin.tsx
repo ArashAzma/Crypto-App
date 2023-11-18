@@ -101,9 +101,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: '800',
   },
-  renderText: {
-    color: WHITE,
-  },
 });
 
-export default PinnedCoin;
+export default React.memo(PinnedCoin);

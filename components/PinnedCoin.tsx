@@ -10,6 +10,7 @@ import {View, Text, StyleSheet} from 'react-native';
 
 import Chart from './Chart';
 import PercentageLabel from './PercentageLabel';
+import Pin from './Pin';
 import PriceLabel from './PriceLabel';
 import {state$} from '../GlobalState';
 import {screenWidth} from '../utils/Dimensions';
@@ -64,6 +65,7 @@ function PinnedCoin() {
         </Computed>
       </View>
       <Chart />
+      <Pin />
     </View>
   );
 }

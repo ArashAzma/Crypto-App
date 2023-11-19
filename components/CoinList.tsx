@@ -6,6 +6,7 @@ import {FlatList, StyleSheet} from 'react-native';
 import CoinItem from './CoinItem';
 import FearAndGreedIndex from './FearAndGreedIndex';
 import PinnedCoin from './PinnedCoin';
+import SwipeableCoin from './SwipeableCoin';
 import {state$} from '../GlobalState';
 import {WHITE} from '../utils/Theme';
 import {Coin} from '../utils/Types';
@@ -32,7 +33,7 @@ function CoinList() {
           </>
         }
         renderItem={({index}) => {
-          return <CoinItem coin$={coins$[index]} />;
+          return <SwipeableCoin coin$={coins$[index]} />;
         }}
       />
     </Computed>

@@ -33,8 +33,8 @@ function PinnedCoin() {
 
   const computedTitle$ = useComputed(
     () =>
-      state$.pinnedCoin.name.peek().charAt(0).toUpperCase() +
-      state$.pinnedCoin.name.peek().slice(1),
+      state$.pinnedCoin.name.get().charAt(0).toUpperCase() +
+      state$.pinnedCoin.name.get().slice(1),
   );
   const computedPercentage$ = useComputed(() => item$.get().percentage);
   const computedPrice$ = useComputed(
@@ -56,8 +56,8 @@ function PinnedCoin() {
         end={{x: 0, y: 1}}
       />
       <View style={styles.titleContainer}>
-        <Text style={styles.header}>{computedTitle$.peek()}</Text>
         <Computed>
+          <Text style={styles.header}>{computedTitle$.get()}</Text>
           <View style={styles.priceAndPercentageContainer}>
             <PriceLabel computedPrice$={computedPrice$} />
             <PercentageLabel percentage$={computedPercentage$} />

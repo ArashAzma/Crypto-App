@@ -57,7 +57,10 @@ const useWebSocket = () => {
   ) => {
     socket.send(
       JSON.stringify({
-        event: subscribe ? 'subscribeCoinPrice' : 'unsubscribeCoinPrice',
+        event:
+          subscribe === 'subscribe'
+            ? 'subscribeCoinPrice'
+            : 'unsubscribeCoinPrice',
         coin,
       }),
     );

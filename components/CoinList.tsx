@@ -3,21 +3,19 @@ import {Computed, useComputed} from '@legendapp/state/react';
 import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 
-import CoinItem from './CoinItem';
 import FearAndGreedIndex from './FearAndGreedIndex';
 import PinnedCoin from './PinnedCoin';
 import SwipeableCoin from './SwipeableCoin';
 import {state$} from '../GlobalState';
+import {keysOf} from '../utils/HelperFunctions';
 import {WHITE} from '../utils/Theme';
-import {Coin} from '../utils/Types';
-import {keysOf} from '../utils/TypeScriptHelperFunctions';
+import {type Coin, type CoinName} from '../utils/Types';
 
 function CoinList() {
   const coins$: ObservableComputed<Coin[]> = useComputed(() => {
     const coinToPriceMap = state$.coinToPriceMap.get();
-    // console.log(coinToPriceMap);
     return keysOf(coinToPriceMap).map((coinName) => ({
-      name: coinName as string,
+      name: coinName as CoinName,
       price: Number(coinToPriceMap[coinName]),
     }));
   });
@@ -28,7 +26,7 @@ function CoinList() {
         contentContainerStyle={styles.flatlist}
         ListHeaderComponent={
           <>
-            <PinnedCoin />
+            {state$.pinnedCoin.name.get() !== 'empty' && <PinnedCoin />}
             <FearAndGreedIndex />
           </>
         }

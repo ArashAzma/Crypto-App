@@ -31,6 +31,7 @@ function PinnedCoin() {
     }
   });
 
+  const isPinned = useComputed(() => true);
   const computedTitle$ = useComputed(
     () =>
       state$.pinnedCoin.name.get().charAt(0).toUpperCase() +
@@ -38,7 +39,7 @@ function PinnedCoin() {
   );
   const computedPercentage$ = useComputed(() => item$.get().percentage);
   const computedPrice$ = useComputed(
-    () => state$.get().pinnedCoin.priceArray?.at(-1) ?? 0,
+    () => state$.get().pinnedCoin?.priceArray?.at(-1) ?? 0,
   );
 
   function getDifferencePercent(x1: number, x2: number) {
@@ -65,7 +66,9 @@ function PinnedCoin() {
         </Computed>
       </View>
       <Chart />
-      <Pin isPinned={true} />
+      <View style={styles.pin}>
+        <Pin isPinned={isPinned} />
+      </View>
     </View>
   );
 }
@@ -102,6 +105,11 @@ const styles = StyleSheet.create({
     color: WHITE,
     fontSize: 30,
     fontWeight: '800',
+  },
+  pin: {
+    position: 'absolute',
+    top: 5,
+    end: 5,
   },
 });
 

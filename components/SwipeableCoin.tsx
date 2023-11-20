@@ -1,4 +1,3 @@
-import {AntDesign} from '@expo/vector-icons';
 import {ObservableBaseFns} from '@legendapp/state';
 import {Computed, useComputed} from '@legendapp/state/react';
 import React, {useContext} from 'react';
@@ -6,10 +5,10 @@ import {StyleSheet, View, TouchableOpacity} from 'react-native';
 import {Swipeable} from 'react-native-gesture-handler';
 
 import CoinItem from './CoinItem';
+import Pin from './Pin';
 import {SocketContext} from '../contexts/SocketContext';
 import {state$} from '../GlobalState';
 import {screenWidth} from '../utils/Dimensions';
-import {WHITE} from '../utils/Theme';
 import {type Coin, type CoinName} from '../utils/Types';
 
 type CoinItemProps = {
@@ -23,8 +22,8 @@ function SwipeableCoin(props: CoinItemProps) {
     () => state$.pinnedCoin.name.get() === coin$.get().name,
   );
   function pinCoin() {
-    const coinName: CoinName = coin$.get().name;
-    const pinnedCoinName: CoinName = state$.pinnedCoin.name.get();
+    const coinName: CoinName = coin$.peek().name;
+    const pinnedCoinName: CoinName = state$.pinnedCoin.name.peek();
     socketContext?.handleSubscribeToCoinChangeFromSocket(
       'unsubscribe',
       pinnedCoinName,
@@ -42,11 +41,7 @@ function SwipeableCoin(props: CoinItemProps) {
           }
         >
           <View style={styles.swipeButton}>
-            <AntDesign
-              name={isPinned.get() ? 'pushpin' : 'pushpino'}
-              size={22}
-              color={WHITE}
-            />
+            <Pin isPinned={isPinned.get()} />
           </View>
         </TouchableOpacity>
       </Computed>
@@ -70,7 +65,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 12,
     borderRadius: 24,
-    transform: [{scaleX: -1}],
   },
 });
 export default React.memo(SwipeableCoin);

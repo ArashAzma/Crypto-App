@@ -1,14 +1,20 @@
 import {AntDesign} from '@expo/vector-icons';
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet} from 'react-native';
 
 import {WHITE} from '../utils/Theme';
 
-function Pin() {
+type PinProps = {isPinned: boolean};
+
+function Pin(props: PinProps) {
+  const {isPinned} = props;
   return (
-    <TouchableOpacity style={styles.container}>
-      <AntDesign name='pushpin' size={22} color={WHITE} />
-    </TouchableOpacity>
+    <AntDesign
+      name={isPinned ? 'pushpin' : 'pushpino'}
+      size={22}
+      color={WHITE}
+      style={styles.container}
+    />
   );
 }
 
@@ -22,7 +28,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     end: 15,
     top: 15,
-    zIndex: 15,
     transform: [{scaleX: -1}],
   },
 });

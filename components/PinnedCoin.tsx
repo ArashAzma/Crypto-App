@@ -65,7 +65,7 @@ function PinnedCoin() {
         </Computed>
       </View>
       <Chart />
-      <Pin />
+      <Pin isPinned={true} />
     </View>
   );
 }

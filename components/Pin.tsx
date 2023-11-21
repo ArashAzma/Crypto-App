@@ -18,6 +18,9 @@ function Pin(props: PinProps) {
   const {isPinned, coin$} = props;
   const socketContext = useContext(SocketContext);
 
+  function pinPress() {
+    isPinned.get() ? unpinCoin() : pinCoin();
+  }
   function unpinCoin() {
     const pinnedCoinName: CoinName = state$.pinnedCoin?.name.peek();
     socketContext?.handleSubscribeToCoinChangeFromSocket(
@@ -42,10 +45,7 @@ function Pin(props: PinProps) {
 
   return (
     <Computed>
-      <TouchableOpacity
-        onPress={() => (isPinned.get() ? unpinCoin() : pinCoin())}
-        style={styles.container}
-      >
+      <TouchableOpacity onPress={pinPress} style={styles.container}>
         <AntDesign
           name={isPinned.get() ? 'pushpin' : 'pushpino'}
           size={22}

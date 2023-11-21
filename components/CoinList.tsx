@@ -19,17 +19,20 @@ function CoinList() {
       price: Number(coinToPriceMap[coinName]),
     }));
   });
+  function listHeader() {
+    return (
+      <>
+        {state$.pinnedCoin.name.get() !== 'empty' && <PinnedCoin />}
+        <FearAndGreedIndex />
+      </>
+    );
+  }
   return (
     <Computed>
       <FlatList
         data={coins$.get()}
         contentContainerStyle={styles.flatlist}
-        ListHeaderComponent={
-          <>
-            {state$.pinnedCoin.name.get() !== 'empty' && <PinnedCoin />}
-            <FearAndGreedIndex />
-          </>
-        }
+        ListHeaderComponent={listHeader}
         renderItem={({index}) => {
           return <SwipeableCoin coin$={coins$[index]} />;
         }}

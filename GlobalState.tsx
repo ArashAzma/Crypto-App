@@ -1,5 +1,6 @@
 import {observable} from '@legendapp/state';
-import {enableReactTracking} from '@legendapp/state/config/enableReactTracking';
+
+import {Currency} from './utils/Types';
 
 type CoinToPriceMap = {[key: string]: number};
 type CoinName =
@@ -13,12 +14,13 @@ type CoinName =
   | 'tron'
   | 'fantom'
   | 'litecoin';
-
-enableReactTracking({
-  auto: true,
-});
 export const state$ = observable({
   coinToPriceMap: {} as CoinToPriceMap,
   fearAndGreedIndex: 0,
+  dollarPriceInRial: 0,
   pinnedCoin: 'bitcoin' as CoinName,
+});
+
+export const settings$ = observable({
+  currency: 'Dollar' as Currency,
 });

@@ -11,6 +11,7 @@ import {View, Text, StyleSheet} from 'react-native';
 
 import PercentageLabel from './PercentageLabel';
 import PriceLabel from './PriceLabel';
+import {settings$, state$} from '../GlobalState';
 import {screenWidth} from '../utils/Dimensions';
 import {DARK_BLUE, GREEN, RED, WHITE} from '../utils/Theme';
 import {Coin} from '../utils/Types';
@@ -21,23 +22,47 @@ type CoinItemProps = {
 
 function CoinItem(props: CoinItemProps) {
   const {coin$} = props;
-  const item$ = useObservable({percentage: 0, color: DARK_BLUE});
+  const item$ = useObservable({
+    percentage: 0,
+    color: DARK_BLUE,
+    price: {inDollar: 0, inRial: 0},
+  });
 
-  useObserve(coin$, (event) => {
+  useObserve(state$.dollarPriceInRial, () => {
+    const {price: dollarPrice} = coin$.peek();
+    const dollarPriceInRial = state$.peek().dollarPriceInRial;
+    const rialPrice = dollarPrice * dollarPriceInRial;
+    item$.price.set({inDollar: dollarPrice, inRial: rialPrice});
+  });
+  useObserve(item$.price, (event) => {
     if (!event.value || !event.previous) return;
-    const {price} = coin$.get();
-    const previousPrice = event.previous.price;
-    const calculatedPercentage = getDifferencePercent(previousPrice, price);
+    const currentPriceInDollar = event.value.inDollar;
+    const currentPriceInRial = event.value.inRial;
+    const previousInDollar = event.previous.inDollar;
+    const previousInRial = event.previous.inRial;
+    const current =
+      settings$.currency.peek() === 'Dollar'
+        ? currentPriceInDollar
+        : currentPriceInRial;
+    const previous =
+      settings$.currency.peek() === 'Dollar'
+        ? previousInDollar
+        : previousInRial;
+    const calculatedPercentage = getDifferencePercent(previous, current);
     item$.percentage.set(Number(calculatedPercentage.toPrecision(2)));
     item$.color.set(calculatedPercentage > 0 ? GREEN : RED);
   });
 
   const computedPercentage$ = useComputed(() => item$.get().percentage);
-  const computedPrice$ = useComputed(() => coin$.get().price);
+  const computedPrice$ = useComputed(() =>
+    settings$.currency.peek() === 'Dollar'
+      ? item$.get().price.inDollar
+      : item$.get().price.inRial,
+  );
 
   function getDifferencePercent(x1: number, x2: number) {
+    if (x1 === 0) return 0;
     const deltaX = x2 - x1;
-
     return (deltaX / x1) * 100;
   }
 

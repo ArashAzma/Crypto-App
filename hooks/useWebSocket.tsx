@@ -19,6 +19,10 @@ const useWebSocket = () => {
           state$.fearAndGreedIndex.set(newData.index);
           break;
         }
+        case 'dollarPrice': {
+          state$.dollarPriceInRial.set(newData.price);
+          break;
+        }
         default: {
           break;
         }

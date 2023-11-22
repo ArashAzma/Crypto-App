@@ -34,8 +34,9 @@ function PinnedCoin() {
   const isPinned = useComputed(() => true);
   const computedTitle$ = useComputed(
     () =>
+      state$.pinnedCoin.name.get() &&
       state$.pinnedCoin.name.get().charAt(0).toUpperCase() +
-      state$.pinnedCoin.name.get().slice(1),
+        state$.pinnedCoin.name.get().slice(1),
   );
   const computedPercentage$ = useComputed(() => item$.get().percentage);
   const computedPrice$ = useComputed(

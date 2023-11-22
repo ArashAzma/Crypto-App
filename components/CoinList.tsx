@@ -22,7 +22,7 @@ function CoinList() {
   function listHeader() {
     return (
       <>
-        {state$.pinnedCoin.name.get() !== 'empty' && <PinnedCoin />}
+        {state$.pinnedCoin.get()?.name && <PinnedCoin />}
         <FearAndGreedIndex />
       </>
     );

@@ -12,5 +12,4 @@ export type CoinName =
   | 'dogecoin'
   | 'tron'
   | 'fantom'
-  | 'litecoin'
-  | 'empty';
+  | 'litecoin';

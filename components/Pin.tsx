@@ -19,21 +19,21 @@ function Pin(props: PinProps) {
   const socketContext = useContext(SocketContext);
 
   function pinPress() {
-    isPinned.get() ? unpinCoin() : pinCoin();
+    isPinned.peek() ? unpinCoin() : pinCoin();
   }
   function unpinCoin() {
-    const pinnedCoinName: CoinName = state$.pinnedCoin?.name.peek();
+    const pinnedCoinName: CoinName = state$.pinnedCoin?.name?.peek();
     socketContext?.handleSubscribeToCoinChangeFromSocket(
       'unsubscribe',
       pinnedCoinName,
     );
-    state$.pinnedCoin.name.set('empty');
+    state$.pinnedCoin.name.set(null);
   }
 
   function pinCoin() {
     if (!coin$) return;
     const coinName: CoinName = coin$.peek().name;
-    const pinnedCoinName: CoinName = state$.pinnedCoin?.name.peek();
+    const pinnedCoinName: CoinName = state$.pinnedCoin?.name?.peek();
     socketContext?.handleSubscribeToCoinChangeFromSocket(
       'unsubscribe',
       pinnedCoinName,
@@ -44,15 +44,15 @@ function Pin(props: PinProps) {
   }
 
   return (
-    <Computed>
-      <TouchableOpacity onPress={pinPress} style={styles.container}>
+    <TouchableOpacity onPress={pinPress} style={styles.container}>
+      <Computed>
         <AntDesign
           name={isPinned.get() ? 'pushpin' : 'pushpino'}
           size={22}
           color={WHITE}
         />
-      </TouchableOpacity>
-    </Computed>
+      </Computed>
+    </TouchableOpacity>
   );
 }
 

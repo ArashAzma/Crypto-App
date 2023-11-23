@@ -1,5 +1,16 @@
 export type Coin = {
-  name: string;
+  name: CoinName;
   price: number;
 };
 export type Currency = 'Dollar' | 'Rial';
+export type CoinName =
+  | 'bitcoin'
+  | 'ethereum'
+  | 'bnb'
+  | 'xrp'
+  | 'solana'
+  | 'cardano'
+  | 'dogecoin'
+  | 'tron'
+  | 'fantom'
+  | 'litecoin';

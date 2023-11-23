@@ -3,29 +3,38 @@ import {Computed, useComputed} from '@legendapp/state/react';
 import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
 
-import CoinItem from './CoinItem';
 import FearAndGreedIndex from './FearAndGreedIndex';
+import PinnedCoin from './PinnedCoin';
+import SwipeableCoin from './SwipeableCoin';
 import {state$} from '../GlobalState';
+import {keysOf} from '../utils/HelperFunctions';
 import {WHITE} from '../utils/Theme';
-import {Coin} from '../utils/Types';
-import {keysOf} from '../utils/TypeScriptHelperFunctions';
+import {type Coin, type CoinName} from '../utils/Types';
 
 function CoinList() {
   const coins$: ObservableComputed<Coin[]> = useComputed(() => {
     const coinToPriceMap = state$.coinToPriceMap.get();
     return keysOf(coinToPriceMap).map((coinName) => ({
-      name: coinName as string,
+      name: coinName as CoinName,
       price: Number(coinToPriceMap[coinName]),
     }));
   });
+  function listHeader() {
+    return (
+      <>
+        {state$.pinnedCoin.get()?.name && <PinnedCoin />}
+        <FearAndGreedIndex />
+      </>
+    );
+  }
   return (
     <Computed>
       <FlatList
         data={coins$.get()}
         contentContainerStyle={styles.flatlist}
-        ListHeaderComponent={<FearAndGreedIndex />}
+        ListHeaderComponent={listHeader}
         renderItem={({index}) => {
-          return <CoinItem coin$={coins$[index]} />;
+          return <SwipeableCoin coin$={coins$[index]} />;
         }}
       />
     </Computed>

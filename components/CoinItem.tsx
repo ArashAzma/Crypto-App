@@ -55,7 +55,7 @@ function CoinItem(props: CoinItemProps) {
 
   const computedPercentage$ = useComputed(() => item$.get().percentage);
   const computedPrice$ = useComputed(() =>
-    settings$.currency.peek() === 'Dollar'
+    settings$.currency.get() === 'Dollar'
       ? item$.get().price.inDollar
       : item$.get().price.inRial,
   );

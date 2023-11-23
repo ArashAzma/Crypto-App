@@ -27,7 +27,7 @@ const useWebSocket = () => {
           break;
         }
         case 'dollarPrice': {
-          state$.dollarPriceInRial.set(newData.price);
+          state$.dollarPriceInToman.set(newData.price);
           break;
         }
         case 'coinPrice': {

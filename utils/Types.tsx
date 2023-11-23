@@ -2,7 +2,7 @@ export type Coin = {
   name: CoinName;
   price: number;
 };
-export type Currency = 'Dollar' | 'Rial';
+export type Currency = 'Dollar' | 'Toman';
 export type CoinName =
   | 'bitcoin'
   | 'ethereum'

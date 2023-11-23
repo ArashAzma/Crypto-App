@@ -13,7 +13,7 @@ import {getCoinList} from '../utils/ApiCalls';
 import {BLACK} from '../utils/Theme';
 
 function HomeScreen() {
-  const socket = useContext(SocketContext);
+  useContext(SocketContext);
   const {isLoading, isError, error} = useQuery({
     queryKey: ['coin', 'list'],
     queryFn: async () => {

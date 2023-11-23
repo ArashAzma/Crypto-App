@@ -9,11 +9,11 @@ type PinnedCoin = {name: PinnedCoinName; priceArray: number[]};
 export const state$ = observable({
   coinToPriceMap: {} as CoinToPriceMap,
   fearAndGreedIndex: 0,
-  dollarPriceInRial: 0,
+  dollarPriceInToman: 0,
   pinnedCoin: {name: 'bitcoin', priceArray: []} as PinnedCoin,
 });
 
 export const settings$ = observable({
-  currency: 'Rial' as Currency,
+  currency: 'Toman' as Currency,
   showPinnedCoin: true,
 });

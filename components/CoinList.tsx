@@ -21,9 +21,11 @@ function CoinList() {
     }));
   });
   function listHeader() {
+    const pinExists = state$.pinnedCoin.peek()?.name !== null;
+    const showPin = settings$.showPinnedCoin.peek();
     return (
       <>
-        {state$.pinnedCoin.get()?.name && settings$.showPinnedCoin.get() && (
+        {pinExists && showPin && (
           <Animated.View entering={FadeIn} exiting={FadeOut}>
             <PinnedCoin />
           </Animated.View>

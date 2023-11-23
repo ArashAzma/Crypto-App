@@ -13,11 +13,11 @@ type PriceLabelProps = {
 function PriceLabel(props: PriceLabelProps) {
   const {computedPrice$} = props;
   const computedPrice = useSelector(computedPrice$);
-
+  const computedCurrency = useSelector(settings$.currency);
   return (
     <Text style={styles.price}>
-      {computedPrice.toPrecision(10)}
-      {settings$.currency.get() === 'Dollar' ? ' $' : ' T'}
+      {computedPrice.toPrecision(10)}{' '}
+      {computedCurrency === 'Dollar' ? '$' : 'T'}
     </Text>
   );
 }

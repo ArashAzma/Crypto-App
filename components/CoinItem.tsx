@@ -25,38 +25,50 @@ function CoinItem(props: CoinItemProps) {
   const item$ = useObservable({
     percentage: 0,
     color: DARK_BLUE,
-    price: {inDollar: 0, inRial: 0},
+    price: {inDollar: 0, inToman: 0},
   });
 
-  useObserve(state$.dollarPriceInRial, () => {
-    const {price: dollarPrice} = coin$.peek();
-    const dollarPriceInRial = state$.peek().dollarPriceInRial;
-    const rialPrice = dollarPrice * dollarPriceInRial;
-    item$.price.set({inDollar: dollarPrice, inRial: rialPrice});
-  });
-  useObserve(item$.price, (event) => {
-    if (!event.value || !event.previous) return;
-    const {inDollar, inRial} = event.value;
-    const {inDollar: previousInDollar, inRial: previousInRial} = event.previous;
-
-    const current = settings$.currency.peek() === 'Dollar' ? inDollar : inRial;
-    const previous =
-      settings$.currency.peek() === 'Dollar'
-        ? previousInDollar
-        : previousInRial;
+  function calculatePercentageAndColor(
+    inDollar: number,
+    inToman: number,
+    previousInDollar: number,
+    previousInToman: number,
+  ) {
+    const isDollarAdjusted = settings$.currency.peek() === 'Dollar';
+    const current = isDollarAdjusted ? inDollar : inToman;
+    const previous = isDollarAdjusted ? previousInDollar : previousInToman;
 
     const calculatedPercentage = getDifferencePercent(previous, current);
     const roundedPercentage = Number(calculatedPercentage.toPrecision(2));
 
     item$.percentage.set(roundedPercentage);
     item$.color.set(calculatedPercentage > 0 ? GREEN : RED);
+  }
+
+  useObserve(state$.dollarPriceInToman, () => {
+    const {price: dollarPrice} = coin$.peek();
+    const dollarPriceInToman = state$.peek().dollarPriceInToman;
+    const tomanPrice = dollarPrice * dollarPriceInToman;
+    item$.price.set({inDollar: dollarPrice, inToman: tomanPrice});
+  });
+  useObserve(item$.price, (event) => {
+    if (!event.value || !event.previous) return;
+    const {inDollar, inToman} = event.value;
+    const {inDollar: previousInDollar, inToman: previousInToman} =
+      event.previous;
+    calculatePercentageAndColor(
+      inDollar,
+      inToman,
+      previousInDollar,
+      previousInToman,
+    );
   });
 
   const computedPercentage$ = useComputed(() => item$.get().percentage);
   const computedPrice$ = useComputed(() =>
     settings$.currency.get() === 'Dollar'
       ? item$.get().price.inDollar
-      : item$.get().price.inRial,
+      : item$.get().price.inToman,
   );
 
   function getDifferencePercent(x1: number, x2: number) {

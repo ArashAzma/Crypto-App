@@ -1,5 +1,5 @@
 import {MaterialCommunityIcons, FontAwesome} from '@expo/vector-icons';
-import {Computed} from '@legendapp/state/react';
+import {Computed, Show} from '@legendapp/state/react';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -9,9 +9,9 @@ import {WHITE} from '../utils/Theme';
 
 function CurrencyChangeHeader() {
   function currencyChangePress() {
-    settings$.currency.peek() === 'Rial'
-      ? settings$.currency.set('Dollar')
-      : settings$.currency.set('Rial');
+    const currency = settings$.currency;
+    const isToman = currency.peek() === 'Toman';
+    isToman ? currency.set('Dollar') : currency.set('Toman');
   }
 
   return (
@@ -20,15 +20,16 @@ function CurrencyChangeHeader() {
         onPress={currencyChangePress}
         style={styles.iconContainer}
       >
-        {settings$.currency.get() === 'Dollar' ? (
-          <FontAwesome name='dollar' size={23} color={WHITE} />
-        ) : (
+        <Show
+          if={() => settings$.currency.get() === 'Toman'}
+          else={<FontAwesome name='dollar' size={23} color={WHITE} />}
+        >
           <MaterialCommunityIcons
             name='currency-rial'
             size={26}
             color={WHITE}
           />
-        )}
+        </Show>
       </TouchableOpacity>
     </Computed>
   );

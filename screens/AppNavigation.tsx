@@ -4,6 +4,8 @@ import React from 'react';
 
 import HomeScreen from './HomeScreen';
 import ProfileScreen from './ProfileScreen';
+import SearchScreen from './SearchScreen';
+
 const Stack = createNativeStackNavigator();
 
 function AppNavigation() {
@@ -12,6 +14,7 @@ function AppNavigation() {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name='Home' component={HomeScreen} />
         <Stack.Screen name='Profile' component={ProfileScreen} />
+        <Stack.Screen name='Search' component={SearchScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

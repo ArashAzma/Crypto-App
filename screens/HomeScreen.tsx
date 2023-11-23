@@ -1,18 +1,18 @@
 import {useQuery} from '@tanstack/react-query';
-import React from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import CoinList from '../components/CoinList';
 import Error from '../components/Error';
 import Loading from '../components/Loading';
+import {SocketContext} from '../contexts/SocketContext';
 import {state$} from '../GlobalState';
-import useWebSocket from '../hooks/useWebSocket';
 import {getCoinList} from '../utils/ApiCalls';
 import {BLACK} from '../utils/Theme';
 
 function HomeScreen() {
-  const socket = useWebSocket();
+  const socket = useContext(SocketContext);
   const {isLoading, isError, error} = useQuery({
     queryKey: ['coin', 'list'],
     queryFn: async () => {

@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 
 import {state$} from '../GlobalState';
+
 const WEB_SOCKET_URL = 'ws://192.168.1.100:4236';
 // const WEB_SOCKET_URL = 'ws://10.0.0.11:4236';
 
@@ -10,6 +11,12 @@ const useWebSocket = () => {
   useEffect(() => {
     socket.onopen = () => {
       console.log(`WebSocket connected to ${WEB_SOCKET_URL}`);
+      socket.send(
+        JSON.stringify({
+          event: 'subscribeCoinPrice',
+          coin: state$.get().pinnedCoin.name,
+        }),
+      );
     };
 
     socket.onmessage = (event) => {
@@ -17,6 +24,16 @@ const useWebSocket = () => {
       switch (newData.event) {
         case 'fearAndGreedIndex': {
           state$.fearAndGreedIndex.set(newData.index);
+          break;
+        }
+        case 'dollarPrice': {
+          break;
+        }
+        case 'coinPrice': {
+          if (state$.pinnedCoin.priceArray.length >= 20) {
+            state$.pinnedCoin.priceArray.shift();
+          }
+          state$.pinnedCoin.priceArray.push(newData.price);
           break;
         }
         default: {
@@ -34,11 +51,22 @@ const useWebSocket = () => {
     };
   }, []);
 
-  const getCoinChangeFromSocket = (message: string) => {
-    socket?.send(JSON.stringify(message));
+  const handleSubscribeToCoinChangeFromSocket = (
+    subscribe: 'subscribe' | 'unsubscribe',
+    coin: string,
+  ) => {
+    socket.send(
+      JSON.stringify({
+        event:
+          subscribe === 'subscribe'
+            ? 'subscribeCoinPrice'
+            : 'unsubscribeCoinPrice',
+        coin,
+      }),
+    );
   };
 
-  return {getCoinChangeFromSocket};
+  return {handleSubscribeToCoinChangeFromSocket};
 };
 
 export default useWebSocket;

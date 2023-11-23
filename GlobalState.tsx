@@ -1,24 +1,19 @@
 import {observable} from '@legendapp/state';
 import {enableReactTracking} from '@legendapp/state/config/enableReactTracking';
 
+import {type CoinName} from './utils/Types';
+
+type PinnedCoinName = CoinName | null;
+
 type CoinToPriceMap = {[key: string]: number};
-type CoinName =
-  | 'bitcoin'
-  | 'ethereum'
-  | 'bnb'
-  | 'xrp'
-  | 'solana'
-  | 'cardano'
-  | 'dogecoin'
-  | 'tron'
-  | 'fantom'
-  | 'litecoin';
+type PinnedCoin = {name: PinnedCoinName; priceArray: number[]};
 
 enableReactTracking({
   auto: true,
 });
+
 export const state$ = observable({
   coinToPriceMap: {} as CoinToPriceMap,
   fearAndGreedIndex: 0,
-  pinnedCoin: 'bitcoin' as CoinName,
+  pinnedCoin: {name: 'bitcoin', priceArray: []} as PinnedCoin,
 });

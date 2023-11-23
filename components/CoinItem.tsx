@@ -36,20 +36,19 @@ function CoinItem(props: CoinItemProps) {
   });
   useObserve(item$.price, (event) => {
     if (!event.value || !event.previous) return;
-    const currentPriceInDollar = event.value.inDollar;
-    const currentPriceInRial = event.value.inRial;
-    const previousInDollar = event.previous.inDollar;
-    const previousInRial = event.previous.inRial;
-    const current =
-      settings$.currency.peek() === 'Dollar'
-        ? currentPriceInDollar
-        : currentPriceInRial;
+    const {inDollar, inRial} = event.value;
+    const {inDollar: previousInDollar, inRial: previousInRial} = event.previous;
+
+    const current = settings$.currency.peek() === 'Dollar' ? inDollar : inRial;
     const previous =
       settings$.currency.peek() === 'Dollar'
         ? previousInDollar
         : previousInRial;
+
     const calculatedPercentage = getDifferencePercent(previous, current);
-    item$.percentage.set(Number(calculatedPercentage.toPrecision(2)));
+    const roundedPercentage = Number(calculatedPercentage.toPrecision(2));
+
+    item$.percentage.set(roundedPercentage);
     item$.color.set(calculatedPercentage > 0 ? GREEN : RED);
   });
 

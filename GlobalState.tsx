@@ -15,4 +15,5 @@ export const state$ = observable({
 
 export const settings$ = observable({
   currency: 'Rial' as Currency,
+  showPinnedCoin: true,
 });

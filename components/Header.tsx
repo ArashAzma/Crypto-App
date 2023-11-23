@@ -4,7 +4,7 @@ import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-import {settings$} from '../GlobalState';
+import {settings$, state$} from '../GlobalState';
 import {screenWidth} from '../utils/Dimensions';
 import {WHITE} from '../utils/Theme';
 
@@ -14,26 +14,48 @@ function Header() {
       ? settings$.currency.set('Dollar')
       : settings$.currency.set('Rial');
   }
+  function showPinPress() {
+    settings$.showPinnedCoin.peek()
+      ? settings$.showPinnedCoin.set(false)
+      : settings$.showPinnedCoin.set(true);
+  }
+  function searchPress() {
+    //TODO : navigate to search screen
+  }
   return (
     <View style={styles.continer}>
       <Computed>
-        <TouchableOpacity onPress={iconPress} style={styles.currencyContainer}>
+        <TouchableOpacity onPress={searchPress} style={styles.iconContainer}>
+          <MaterialCommunityIcons name='magnify' size={26} color={WHITE} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={iconPress} style={styles.iconContainer}>
           {settings$.currency.get() === 'Dollar' ? (
-            <FontAwesome name='dollar' size={24} color={WHITE} />
+            <FontAwesome name='dollar' size={23} color={WHITE} />
           ) : (
             <MaterialCommunityIcons
               name='currency-rial'
-              size={24}
+              size={26}
               color={WHITE}
             />
           )}
         </TouchableOpacity>
+        {state$.pinnedCoin.get()?.name && (
+          <TouchableOpacity onPress={showPinPress} style={styles.iconContainer}>
+            <MaterialCommunityIcons
+              name={
+                settings$.showPinnedCoin.get()
+                  ? 'pin-off-outline'
+                  : 'pin-outline'
+              }
+              size={25}
+              color={WHITE}
+            />
+          </TouchableOpacity>
+        )}
       </Computed>
     </View>
   );
 }
-
-export default Header;
 
 const styles = StyleSheet.create({
   continer: {
@@ -42,10 +64,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginBottom: 16,
+    gap: 12,
   },
-  currencyContainer: {
+  iconContainer: {
+    width: 40,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 12,
+    paddingVertical: 12,
   },
 });
+export default React.memo(Header);

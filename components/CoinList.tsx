@@ -2,11 +2,12 @@ import {ObservableComputed} from '@legendapp/state';
 import {Computed, useComputed} from '@legendapp/state/react';
 import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
+import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 
 import FearAndGreedIndex from './FearAndGreedIndex';
 import PinnedCoin from './PinnedCoin';
 import SwipeableCoin from './SwipeableCoin';
-import {state$} from '../GlobalState';
+import {settings$, state$} from '../GlobalState';
 import {keysOf} from '../utils/HelperFunctions';
 import {WHITE} from '../utils/Theme';
 import {type Coin, type CoinName} from '../utils/Types';
@@ -22,7 +23,11 @@ function CoinList() {
   function listHeader() {
     return (
       <>
-        {state$.pinnedCoin.get()?.name && <PinnedCoin />}
+        {state$.pinnedCoin.get()?.name && settings$.showPinnedCoin.get() && (
+          <Animated.View entering={FadeIn} exiting={FadeOut}>
+            <PinnedCoin />
+          </Animated.View>
+        )}
         <FearAndGreedIndex />
       </>
     );

@@ -17,7 +17,7 @@ function PriceLabel(props: PriceLabelProps) {
   return (
     <Text style={styles.price}>
       {computedPrice.toPrecision(10)}
-      {settings$.currency.get() === 'Dollar' ? '$' : 'T'}
+      {settings$.currency.get() === 'Dollar' ? ' $' : ' T'}
     </Text>
   );
 }

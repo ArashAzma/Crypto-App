@@ -5,6 +5,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 
 import CoinList from '../components/CoinList';
 import Error from '../components/Error';
+import Header from '../components/Header';
 import Loading from '../components/Loading';
 import {SocketContext} from '../contexts/SocketContext';
 import {state$} from '../GlobalState';
@@ -31,6 +32,7 @@ function HomeScreen() {
   }
   return (
     <SafeAreaView style={styles.continer}>
+      <Header />
       <CoinList />
     </SafeAreaView>
   );
@@ -42,6 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: BLACK,
+    paddingVertical: 24,
   },
 });
 

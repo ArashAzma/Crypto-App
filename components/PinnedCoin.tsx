@@ -14,7 +14,7 @@ import Pin from './Pin';
 import PriceLabel from './PriceLabel';
 import {state$} from '../GlobalState';
 import {screenWidth} from '../utils/Dimensions';
-import {getDifferencePercent} from '../utils/HelperFunctions';
+import {capitalize, getDifferencePercent} from '../utils/HelperFunctions';
 import {DARK_BLUE, GREEN, RED, WHITE} from '../utils/Theme';
 
 const DIMENSION = screenWidth * 0.9;
@@ -23,7 +23,6 @@ function PinnedCoin() {
   const item$ = useObservable({
     percentage: 0,
     color: DARK_BLUE,
-    isPinned: true,
   });
 
   useObserve(() => {
@@ -36,14 +35,9 @@ function PinnedCoin() {
     }
   });
 
-  function capitalize(str: string) {
-    return str.at(0)?.toUpperCase() + str.slice(1);
-  }
-
   const computedIsPinned$ = useComputed(() => true);
   const computedTitle$ = useComputed(() => {
-    const pinnedCoinName = state$.pinnedCoin.name.get();
-
+    const pinnedCoinName = state$.pinnedCoin?.name.peek();
     return capitalize(pinnedCoinName);
   });
   const computedPercentage$ = useComputed(() => item$.percentage.get());

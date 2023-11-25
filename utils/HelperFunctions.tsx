@@ -8,3 +8,7 @@ export function getDifferencePercent(x1: number, x2: number) {
 
   return (deltaX / x1) * 100;
 }
+
+export function capitalize(str: string) {
+  return str?.at(0)?.toUpperCase() + str?.slice(1);
+}

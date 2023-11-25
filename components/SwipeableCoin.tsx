@@ -16,14 +16,16 @@ type CoinItemProps = {
 
 function SwipeableCoin(props: CoinItemProps) {
   const {coin$} = props;
-  const isPinned = useComputed(
+
+  const computedIsPinned$ = useComputed(
     () => state$.pinnedCoin?.name.get() === coin$.get().name,
   );
+
   function swipeRight() {
     return (
       <Computed>
         <View style={styles.swipeButton}>
-          <Pin isPinned={isPinned} coin$={coin$} />
+          <Pin computedIsPinned$={computedIsPinned$} coin$={coin$} />
         </View>
       </Computed>
     );

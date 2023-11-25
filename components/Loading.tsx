@@ -7,6 +7,7 @@ type LoadingProps = {subject?: 'initial loading' | 'normal'};
 
 const Loading = (props: LoadingProps) => {
   const {subject = 'normal'} = props;
+
   return (
     <View
       style={subject === 'initial loading' ? styles.container : styles.loader}

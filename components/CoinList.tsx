@@ -20,7 +20,8 @@ function CoinList() {
       price: Number(coinToPriceMap[coinName]),
     }));
   });
-  function listHeader() {
+
+  function getListHeaderJSX() {
     const pinExists = state$.pinnedCoin.peek()?.name !== null;
     const showPin = settings$.showPinnedCoin.peek();
     return (
@@ -34,12 +35,13 @@ function CoinList() {
       </>
     );
   }
+
   return (
     <Computed>
       <FlatList
         data={coins$.get()}
         contentContainerStyle={styles.flatlist}
-        ListHeaderComponent={listHeader}
+        ListHeaderComponent={getListHeaderJSX}
         renderItem={({index}) => {
           return <SwipeableCoin coin$={coins$[index]} />;
         }}

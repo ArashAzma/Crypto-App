@@ -5,7 +5,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 
 import {WHITE} from '../utils/Theme';
 
-function SearchHeader() {
+function HeaderSearch() {
   function searchPress() {
     //TODO : navigate to search screen
   }
@@ -26,4 +26,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(SearchHeader);
+export default React.memo(HeaderSearch);

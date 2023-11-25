@@ -14,16 +14,21 @@ import Pin from './Pin';
 import PriceLabel from './PriceLabel';
 import {state$} from '../GlobalState';
 import {screenWidth} from '../utils/Dimensions';
+import {getDifferencePercent} from '../utils/HelperFunctions';
 import {DARK_BLUE, GREEN, RED, WHITE} from '../utils/Theme';
 
 const DIMENSION = screenWidth * 0.9;
 
 function PinnedCoin() {
-  const item$ = useObservable({percentage: 0, color: DARK_BLUE});
+  const item$ = useObservable({
+    percentage: 0,
+    color: DARK_BLUE,
+    isPinned: true,
+  });
 
   useObserve(() => {
-    const price = state$.pinnedCoin.priceArray.get()?.at(-1);
-    const previousPrice = state$.pinnedCoin.priceArray.get()?.at(-2);
+    const price = state$.pinnedCoin.priceHistory.get()?.at(-1);
+    const previousPrice = state$.pinnedCoin.priceHistory.get()?.at(-2);
     if (price && previousPrice) {
       const calculatedPercentage = getDifferencePercent(previousPrice, price);
       item$.percentage.set(Number(calculatedPercentage.toPrecision(2)));
@@ -31,23 +36,20 @@ function PinnedCoin() {
     }
   });
 
-  const isPinned = useComputed(() => true);
-  const computedTitle$ = useComputed(
-    () =>
-      state$.pinnedCoin.name.get() &&
-      state$.pinnedCoin.name.get().charAt(0).toUpperCase() +
-        state$.pinnedCoin.name.get().slice(1),
-  );
-  const computedPercentage$ = useComputed(() => item$.get().percentage);
-  const computedPrice$ = useComputed(
-    () => (state$.get().pinnedCoin.priceArray?.at(-1) as number) ?? 0,
-  );
-
-  function getDifferencePercent(x1: number, x2: number) {
-    const deltaX = x2 - x1;
-
-    return (deltaX / x1) * 100;
+  function capitalize(str: string) {
+    return str.at(0)?.toUpperCase() + str.slice(1);
   }
+
+  const computedIsPinned$ = useComputed(() => true);
+  const computedTitle$ = useComputed(() => {
+    const pinnedCoinName = state$.pinnedCoin.name.get();
+
+    return capitalize(pinnedCoinName);
+  });
+  const computedPercentage$ = useComputed(() => item$.percentage.get());
+  const computedPrice$ = useComputed(
+    () => state$.pinnedCoin.priceHistory.get()?.at(-1) ?? 0,
+  );
 
   return (
     <View style={styles.container}>
@@ -68,7 +70,7 @@ function PinnedCoin() {
       </View>
       <Chart />
       <View style={styles.pin}>
-        <Pin isPinned={isPinned} />
+        <Pin computedIsPinned$={computedIsPinned$} />
       </View>
     </View>
   );

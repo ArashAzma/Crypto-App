@@ -10,16 +10,16 @@ import {WHITE} from '../utils/Theme';
 import {Coin, CoinName} from '../utils/Types';
 
 type PinProps = {
-  isPinned: ObservableComputed<boolean>;
+  computedIsPinned$: ObservableComputed<boolean>;
   coin$?: ObservableBaseFns<Coin>;
 };
 
 function Pin(props: PinProps) {
-  const {isPinned, coin$} = props;
+  const {computedIsPinned$, coin$} = props;
   const socketContext = useContext(SocketContext);
 
   function pinPress() {
-    isPinned.peek() ? unpinCoin() : pinCoin();
+    computedIsPinned$.peek() ? unpinCoin() : pinCoin();
   }
   function unpinCoin() {
     const pinnedCoinName: CoinName = state$.pinnedCoin?.name?.peek();
@@ -29,7 +29,6 @@ function Pin(props: PinProps) {
     );
     state$.pinnedCoin.name.set(null);
   }
-
   function pinCoin() {
     if (!coin$) return;
     const coinName: CoinName = coin$.peek().name;
@@ -40,14 +39,14 @@ function Pin(props: PinProps) {
     );
     socketContext?.handleSubscribeToCoinChangeFromSocket('subscribe', coinName);
     state$.pinnedCoin?.name.set(coinName);
-    state$.pinnedCoin?.priceArray.set([]);
+    state$.pinnedCoin?.priceHistory.set([]);
   }
 
   return (
     <TouchableOpacity onPress={pinPress} style={styles.container}>
       <Computed>
         <AntDesign
-          name={isPinned.get() ? 'pushpin' : 'pushpino'}
+          name={computedIsPinned$.get() ? 'pushpin' : 'pushpino'}
           size={22}
           color={WHITE}
         />

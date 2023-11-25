@@ -13,6 +13,7 @@ import PercentageLabel from './PercentageLabel';
 import PriceLabel from './PriceLabel';
 import {settings$, state$} from '../GlobalState';
 import {screenWidth} from '../utils/Dimensions';
+import {getDifferencePercent} from '../utils/HelperFunctions';
 import {DARK_BLUE, GREEN, RED, WHITE} from '../utils/Theme';
 import {Coin} from '../utils/Types';
 
@@ -34,7 +35,7 @@ function CoinItem(props: CoinItemProps) {
     previousInDollar: number,
     previousInToman: number,
   ) {
-    const isDollarAdjusted = settings$.currency.peek() === 'Dollar';
+    const isDollarAdjusted = settings$.isCurrencyDollar.peek();
     const current = isDollarAdjusted ? inDollar : inToman;
     const previous = isDollarAdjusted ? previousInDollar : previousInToman;
 
@@ -47,15 +48,18 @@ function CoinItem(props: CoinItemProps) {
 
   useObserve(state$.dollarPriceInToman, () => {
     const {price: dollarPrice} = coin$.peek();
-    const dollarPriceInToman = state$.peek().dollarPriceInToman;
+
+    const dollarPriceInToman = state$.dollarPriceInToman.peek();
     const tomanPrice = dollarPrice * dollarPriceInToman;
+
     item$.price.set({inDollar: dollarPrice, inToman: tomanPrice});
   });
-  useObserve(item$.price, (event) => {
-    if (!event.value || !event.previous) return;
-    const {inDollar, inToman} = event.value;
-    const {inDollar: previousInDollar, inToman: previousInToman} =
-      event.previous;
+  useObserve(item$.price, ({value, previous}) => {
+    if (!value || !previous) return;
+
+    const {inDollar, inToman} = value;
+    const {inDollar: previousInDollar, inToman: previousInToman} = previous;
+
     calculatePercentageAndColor(
       inDollar,
       inToman,
@@ -64,25 +68,19 @@ function CoinItem(props: CoinItemProps) {
     );
   });
 
-  const computedPercentage$ = useComputed(() => item$.get().percentage);
+  const computedPercentage$ = useComputed(() => item$.percentage.get());
   const computedPrice$ = useComputed(() =>
-    settings$.currency.get() === 'Dollar'
-      ? item$.get().price.inDollar
-      : item$.get().price.inToman,
+    settings$.isCurrencyDollar.get()
+      ? item$.price.inDollar.get()
+      : item$.price.inToman.get(),
   );
-
-  function getDifferencePercent(x1: number, x2: number) {
-    if (x1 === 0) return 0;
-    const deltaX = x2 - x1;
-    return (deltaX / x1) * 100;
-  }
 
   return (
     <View style={styles.container}>
       <Computed>
         <LinearGradient
           style={styles.colorContainer}
-          colors={[item$.get().color, 'transparent']}
+          colors={[item$.color.get(), 'transparent']}
           start={{x: 0, y: 0}}
           end={{x: 1, y: 0}}
         />

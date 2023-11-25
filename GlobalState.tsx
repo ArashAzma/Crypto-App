@@ -1,19 +1,18 @@
 import {observable} from '@legendapp/state';
 
-import {type CoinName, type Currency} from './utils/Types';
+import {type CoinName} from './utils/Types';
 
-type PinnedCoinName = CoinName | null;
 type CoinToPriceMap = {[key: string]: number};
-type PinnedCoin = {name: PinnedCoinName; priceArray: number[]};
+type PinnedCoin = {name: CoinName | null; priceHistory: number[]};
 
 export const state$ = observable({
   coinToPriceMap: {} as CoinToPriceMap,
   fearAndGreedIndex: 0,
   dollarPriceInToman: 0,
-  pinnedCoin: {name: 'bitcoin', priceArray: []} as PinnedCoin,
+  pinnedCoin: {name: 'bitcoin', priceHistory: []} as PinnedCoin,
 });
 
 export const settings$ = observable({
-  currency: 'Toman' as Currency,
+  isCurrencyDollar: false,
   showPinnedCoin: true,
 });

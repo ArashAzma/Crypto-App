@@ -7,11 +7,10 @@ import {DARK_BLUE, WHITE} from '../utils/Theme';
 
 type TextFieldProps = {
   text$: ObservablePrimitiveChildFns<string>;
-  onSubmit: () => void;
 };
 
 function TextField(props: TextFieldProps) {
-  const {text$, onSubmit} = props;
+  const {text$} = props;
   function handleChangeText(text: string) {
     text$.set(text);
   }
@@ -24,7 +23,6 @@ function TextField(props: TextFieldProps) {
           onChangeText={handleChangeText}
           placeholder='Type something...'
           placeholderTextColor={WHITE}
-          onSubmitEditing={onSubmit}
         />
       </Computed>
     </View>

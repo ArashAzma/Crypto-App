@@ -12,9 +12,9 @@ function AppNavigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name='Home' component={HomeScreen} />
-        <Stack.Screen name='Profile' component={ProfileScreen} />
-        <Stack.Screen name='Search' component={SearchScreen} />
+        <Stack.Screen name='HomeScreen' component={HomeScreen} />
+        <Stack.Screen name='ProfileScreen' component={ProfileScreen} />
+        <Stack.Screen name='SearchScreen' component={SearchScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

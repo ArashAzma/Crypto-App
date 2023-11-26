@@ -1,4 +1,5 @@
 import {MaterialCommunityIcons} from '@expo/vector-icons';
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -6,8 +7,9 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {WHITE} from '../utils/Theme';
 
 function HeaderSearch() {
+  const navigation = useNavigation();
   function searchPress() {
-    //TODO : navigate to search screen
+    navigation.navigate('SearchScreen' as never);
   }
 
   return (

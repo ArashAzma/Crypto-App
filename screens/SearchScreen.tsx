@@ -11,15 +11,15 @@ import {state$} from '../GlobalState';
 import {screenWidth} from '../utils/Dimensions';
 import {BLACK, DARK_BLUE, WHITE} from '../utils/Theme';
 import {CoinName, type Coin} from '../utils/Types';
-//TODO add debounce
+
 function SearchScreen() {
   const search$ = useObservable({
     text: '',
   });
-
   const coins$: ObservableComputed<Coin[]> = useComputed(() => {
     const coinToPriceMap = state$.coinToPriceMap.get();
     const searchInput = search$.text.get();
+    if (!searchInput) return [];
 
     const coinToPriceArray = keysOf(coinToPriceMap).map((coinName) => ({
       name: coinName as CoinName,
@@ -57,30 +57,22 @@ const styles = StyleSheet.create({
     backgroundColor: BLACK,
   },
   textInputContainer: {
+    backgroundColor: DARK_BLUE,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     width: screenWidth * 0.9,
     height: 55,
     borderRadius: 14,
-    marginVertical: 40,
-  },
-  searchContainer: {
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    width: '85%',
-    height: '100%',
-    backgroundColor: DARK_BLUE,
-    borderRadius: 14,
-    paddingHorizontal: 10,
+    marginVertical: 60,
   },
   magnify: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: DARK_BLUE,
     borderRadius: 14,
-    width: 45,
     height: '100%',
+    position: 'absolute',
+    end: 10,
   },
   text: {
     color: WHITE,

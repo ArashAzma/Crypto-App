@@ -1,5 +1,5 @@
 import {ObservablePrimitiveChildFns} from '@legendapp/state';
-import {Computed, useObservable} from '@legendapp/state/react';
+import {Computed} from '@legendapp/state/react';
 import React from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 
@@ -7,16 +7,16 @@ import {DARK_BLUE, WHITE} from '../utils/Theme';
 
 type TextFieldProps = {
   text$: ObservablePrimitiveChildFns<string>;
+  debouncedText$: ObservablePrimitiveChildFns<string>;
 };
 
 function TextField(props: TextFieldProps) {
-  const {text$} = props;
-  const debouncedText$ = useObservable({text: ''});
+  const {text$, debouncedText$} = props;
 
   let timerId: NodeJS.Timeout;
 
   function handleChangeText(text: string) {
-    debouncedText$.text.set(text);
+    debouncedText$.set(text);
     clearTimeout(timerId);
 
     timerId = setTimeout(() => {
@@ -27,7 +27,7 @@ function TextField(props: TextFieldProps) {
   return (
     <Computed>
       <TextInput
-        value={debouncedText$.text.get()}
+        value={debouncedText$.get()}
         style={styles.searchContainer}
         onChangeText={handleChangeText}
         placeholder='Type something...'

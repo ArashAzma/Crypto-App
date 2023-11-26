@@ -3,6 +3,7 @@ import {useSelector} from '@legendapp/state/react';
 import React from 'react';
 import {Text, StyleSheet} from 'react-native';
 
+import {settings$} from '../GlobalState';
 import {WHITE} from '../utils/Theme';
 
 type PriceLabelProps = {
@@ -11,15 +12,21 @@ type PriceLabelProps = {
 
 function PriceLabel(props: PriceLabelProps) {
   const {computedPrice$} = props;
-  const computedPrice = useSelector(computedPrice$);
 
-  return <Text style={styles.price}>${computedPrice.toPrecision(10)}</Text>;
+  const computedPrice = useSelector(computedPrice$);
+  const isCurrencyDollar = useSelector(settings$.isCurrencyDollar);
+
+  return (
+    <Text style={styles.price}>
+      {computedPrice.toPrecision(10)} {isCurrencyDollar ? '$' : 'T'}
+    </Text>
+  );
 }
 
 const styles = StyleSheet.create({
   price: {
     color: WHITE,
-    fontWeight: '100',
+    fontWeight: '200',
     fontSize: 12,
   },
 });

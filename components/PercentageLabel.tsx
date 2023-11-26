@@ -10,7 +10,9 @@ type PercentageLabelProps = {percentage$: ObservableComputed<number>};
 
 function PercentageLabel(props: PercentageLabelProps) {
   const {percentage$} = props;
+
   const isGrowth = useComputed(() => (percentage$.get() >= 0 ? true : false));
+
   return (
     <View style={styles.continer}>
       <Computed>

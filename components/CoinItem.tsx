@@ -11,7 +11,9 @@ import {View, Text, StyleSheet} from 'react-native';
 
 import PercentageLabel from './PercentageLabel';
 import PriceLabel from './PriceLabel';
+import {settings$, state$} from '../GlobalState';
 import {screenWidth} from '../utils/Dimensions';
+import {getDifferencePercent} from '../utils/HelperFunctions';
 import {DARK_BLUE, GREEN, RED, WHITE} from '../utils/Theme';
 import {Coin} from '../utils/Types';
 
@@ -21,32 +23,64 @@ type CoinItemProps = {
 
 function CoinItem(props: CoinItemProps) {
   const {coin$} = props;
-  const item$ = useObservable({percentage: 0, color: DARK_BLUE});
-
-  useObserve(coin$, (event) => {
-    if (!event.value || !event.previous) return;
-    const {price} = coin$.get();
-    const previousPrice = event.previous.price;
-    const calculatedPercentage = getDifferencePercent(previousPrice, price);
-    item$.percentage.set(Number(calculatedPercentage.toPrecision(2)));
-    item$.color.set(calculatedPercentage > 0 ? GREEN : RED);
+  const item$ = useObservable({
+    percentage: 0,
+    color: DARK_BLUE,
+    price: {inDollar: 0, inToman: 0},
   });
 
-  const computedPercentage$ = useComputed(() => item$.get().percentage);
-  const computedPrice$ = useComputed(() => coin$.get().price);
+  function calculatePercentageAndColor(
+    inDollar: number,
+    inToman: number,
+    previousInDollar: number,
+    previousInToman: number,
+  ) {
+    const isDollarAdjusted = settings$.isCurrencyDollar.peek();
+    const current = isDollarAdjusted ? inDollar : inToman;
+    const previous = isDollarAdjusted ? previousInDollar : previousInToman;
 
-  function getDifferencePercent(x1: number, x2: number) {
-    const deltaX = x2 - x1;
+    const calculatedPercentage = getDifferencePercent(previous, current);
+    const roundedPercentage = Number(calculatedPercentage.toPrecision(2));
 
-    return (deltaX / x1) * 100;
+    item$.percentage.set(roundedPercentage);
+    item$.color.set(calculatedPercentage > 0 ? GREEN : RED);
   }
+
+  useObserve(state$.dollarPriceInToman, () => {
+    const {price: dollarPrice} = coin$.peek();
+
+    const dollarPriceInToman = state$.dollarPriceInToman.peek();
+    const tomanPrice = dollarPrice * dollarPriceInToman;
+
+    item$.price.set({inDollar: dollarPrice, inToman: tomanPrice});
+  });
+  useObserve(item$.price, ({value, previous}) => {
+    if (!value || !previous) return;
+
+    const {inDollar, inToman} = value;
+    const {inDollar: previousInDollar, inToman: previousInToman} = previous;
+
+    calculatePercentageAndColor(
+      inDollar,
+      inToman,
+      previousInDollar,
+      previousInToman,
+    );
+  });
+
+  const computedPercentage$ = useComputed(() => item$.percentage.get());
+  const computedPrice$ = useComputed(() =>
+    settings$.isCurrencyDollar.get()
+      ? item$.price.inDollar.get()
+      : item$.price.inToman.get(),
+  );
 
   return (
     <View style={styles.container}>
       <Computed>
         <LinearGradient
           style={styles.colorContainer}
-          colors={[item$.get().color, 'transparent']}
+          colors={[item$.color.get(), 'transparent']}
           start={{x: 0, y: 0}}
           end={{x: 1, y: 0}}
         />

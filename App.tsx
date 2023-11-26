@@ -16,7 +16,7 @@ export default function App() {
         <GestureHandlerRootView style={styles.container}>
           <AppNavigation />
         </GestureHandlerRootView>
-        <StatusBar style='auto' />
+        <StatusBar style='light' />
       </SocketProvider>
     </QueryClientProvider>
   );

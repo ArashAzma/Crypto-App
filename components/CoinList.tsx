@@ -2,11 +2,12 @@ import {ObservableComputed} from '@legendapp/state';
 import {Computed, useComputed} from '@legendapp/state/react';
 import React from 'react';
 import {FlatList, StyleSheet} from 'react-native';
+import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 
 import FearAndGreedIndex from './FearAndGreedIndex';
 import PinnedCoin from './PinnedCoin';
 import SwipeableCoin from './SwipeableCoin';
-import {state$} from '../GlobalState';
+import {settings$, state$} from '../GlobalState';
 import {keysOf} from '../utils/HelperFunctions';
 import {WHITE} from '../utils/Theme';
 import {type Coin, type CoinName} from '../utils/Types';
@@ -19,20 +20,28 @@ function CoinList() {
       price: Number(coinToPriceMap[coinName]),
     }));
   });
-  function listHeader() {
+
+  function getListHeaderJSX() {
+    const pinExists = state$.pinnedCoin.peek()?.name !== null;
+    const showPin = settings$.showPinnedCoin.peek();
     return (
       <>
-        {state$.pinnedCoin.get()?.name && <PinnedCoin />}
+        {pinExists && showPin && (
+          <Animated.View entering={FadeIn} exiting={FadeOut}>
+            <PinnedCoin />
+          </Animated.View>
+        )}
         <FearAndGreedIndex />
       </>
     );
   }
+
   return (
     <Computed>
       <FlatList
         data={coins$.get()}
         contentContainerStyle={styles.flatlist}
-        ListHeaderComponent={listHeader}
+        ListHeaderComponent={getListHeaderJSX}
         renderItem={({index}) => {
           return <SwipeableCoin coin$={coins$[index]} />;
         }}

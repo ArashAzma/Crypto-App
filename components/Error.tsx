@@ -7,6 +7,7 @@ type ErrorProps = {message: string};
 
 const Error = (props: ErrorProps) => {
   const {message} = props;
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Error</Text>

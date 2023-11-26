@@ -19,7 +19,7 @@ function Chart() {
       <Computed>
         <YAxis
           style={styles.yAxis}
-          data={state$.get().pinnedCoin.priceArray.slice(-8)}
+          data={state$.pinnedCoin.priceHistory.get().slice(-8)}
           contentInset={contentInset}
           svg={{
             fill: WHITE,
@@ -31,7 +31,7 @@ function Chart() {
         />
         <LineChart
           style={styles.chart}
-          data={state$.get().pinnedCoin.priceArray}
+          data={state$.pinnedCoin.priceHistory.get()}
           svg={{
             stroke: GREEN,
             fill: GREEN,

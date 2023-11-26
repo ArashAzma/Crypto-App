@@ -14,7 +14,7 @@ const useWebSocket = () => {
       socket.send(
         JSON.stringify({
           event: 'subscribeCoinPrice',
-          coin: state$.get().pinnedCoin.name,
+          coin: state$.pinnedCoin.name.peek(),
         }),
       );
     };
@@ -27,13 +27,14 @@ const useWebSocket = () => {
           break;
         }
         case 'dollarPrice': {
+          state$.dollarPriceInToman.set(newData.price);
           break;
         }
         case 'coinPrice': {
-          if (state$.pinnedCoin.priceArray.length >= 20) {
-            state$.pinnedCoin.priceArray.shift();
+          if (state$.pinnedCoin.priceHistory.length >= 20) {
+            state$.pinnedCoin.priceHistory.shift();
           }
-          state$.pinnedCoin.priceArray.push(newData.price);
+          state$.pinnedCoin.priceHistory.push(newData.price);
           break;
         }
         default: {

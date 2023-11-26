@@ -28,6 +28,7 @@ function FearAndGreedIndex() {
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{translateX: offset.value}],
   }));
+
   useObserve(fear$, (event) => {
     if (!event.value) return;
     const fearIndex = fear$.get();

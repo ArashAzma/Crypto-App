@@ -10,7 +10,7 @@ import TextFieldLabel from '../components/TextFieldLabel';
 import {state$} from '../GlobalState';
 import {screenWidth} from '../utils/Dimensions';
 import {BLACK, DARK_BLUE, WHITE} from '../utils/Theme';
-import {CoinName, type Coin} from '../utils/Types';
+import {type CoinName, type Coin} from '../utils/Types';
 
 function SearchScreen() {
   const search$ = useObservable({
@@ -33,6 +33,7 @@ function SearchScreen() {
       coin.name.toLowerCase().includes(searchInput.toLowerCase()),
     );
   });
+
   return (
     <View style={styles.container}>
       <View style={styles.textInputContainer}>

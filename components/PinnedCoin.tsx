@@ -23,6 +23,7 @@ function PinnedCoin() {
   const item$ = useObservable({
     percentage: 0,
     color: DARK_BLUE,
+    isPinned: true,
   });
 
   useObserve(() => {
@@ -35,9 +36,8 @@ function PinnedCoin() {
     }
   });
 
-  const computedIsPinned$ = useComputed(() => true);
   const computedTitle$ = useComputed(() => {
-    const pinnedCoinName = state$.pinnedCoin?.name.peek();
+    const pinnedCoinName = state$.pinnedCoin?.name.get();
     return capitalize(pinnedCoinName);
   });
   const computedPercentage$ = useComputed(() => item$.percentage.get());
@@ -64,7 +64,7 @@ function PinnedCoin() {
       </View>
       <Chart />
       <View style={styles.pin}>
-        <Pin computedIsPinned$={computedIsPinned$} />
+        <Pin isPinned$={item$.isPinned} />
       </View>
     </View>
   );

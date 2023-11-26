@@ -25,7 +25,7 @@ function SwipeableCoin(props: CoinItemProps) {
     return (
       <Computed>
         <View style={styles.swipeButton}>
-          <Pin computedIsPinned$={computedIsPinned$} coin$={coin$} />
+          <Pin isPinned$={computedIsPinned$} coin$={coin$} />
         </View>
       </Computed>
     );

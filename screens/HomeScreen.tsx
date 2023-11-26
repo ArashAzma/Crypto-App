@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: BLACK,
-    paddingVertical: 24,
+    paddingTop: 24,
   },
 });
 

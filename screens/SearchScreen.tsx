@@ -1,33 +1,30 @@
 import {ObservableComputed} from '@legendapp/state';
 import {Computed, useComputed, useObservable} from '@legendapp/state/react';
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
 
-import {keysOf} from './../utils/HelperFunctions';
 import CoinItem from '../components/CoinItem';
-import TextField from '../components/TextField';
-import TextFieldLabel from '../components/TextFieldLabel';
+import EmptySearchList from '../components/EmptySearchList';
+import HeaderSearchScreen from '../components/HeaderSearchScreen';
 import {state$} from '../GlobalState';
-import {screenWidth} from '../utils/Dimensions';
-import {BLACK, DARK_BLUE, WHITE} from '../utils/Theme';
-import {type CoinName, type Coin} from '../utils/Types';
+import {BLACK, WHITE} from '../utils/Theme';
+import {type Coin} from '../utils/Types';
+
+type SearchState = {
+  debouncedText: string;
+};
 
 function SearchScreen() {
-  const search$ = useObservable({
-    text: '',
+  const [text, setText] = useState('');
+  const search$ = useObservable<SearchState>({
     debouncedText: '',
   });
 
   const coins$: ObservableComputed<Coin[]> = useComputed(() => {
-    const coinToPriceMap = state$.coinToPriceMap.get();
-    const searchInput = search$.text.get();
+    const coinToPriceArray = state$.coins.get();
+    const searchInput = search$.debouncedText.get();
 
     if (!searchInput) return [];
-
-    const coinToPriceArray = keysOf(coinToPriceMap).map((coinName) => ({
-      name: coinName as CoinName,
-      price: Number(coinToPriceMap[coinName]),
-    }));
 
     return coinToPriceArray.filter((coin) =>
       coin.name.toLowerCase().includes(searchInput.toLowerCase()),
@@ -36,19 +33,17 @@ function SearchScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.textInputContainer}>
-        <TextField
-          text$={search$.text}
-          debouncedText$={search$.debouncedText}
-        />
-        <TextFieldLabel
-          text$={search$.text}
-          debouncedText$={search$.debouncedText}
-        />
-      </View>
       <Computed>
         <FlatList
           data={coins$.get()}
+          ListHeaderComponent={
+            <HeaderSearchScreen
+              text={text}
+              setText={setText}
+              debouncedText$={search$.debouncedText}
+            />
+          }
+          ListEmptyComponent={<EmptySearchList />}
           renderItem={({index}) => <CoinItem coin$={coins$[index]} />}
         />
       </Computed>
@@ -62,16 +57,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: BLACK,
-  },
-  textInputContainer: {
-    backgroundColor: DARK_BLUE,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    width: screenWidth * 0.9,
-    height: 55,
-    borderRadius: 14,
-    marginVertical: 60,
   },
   text: {
     color: WHITE,

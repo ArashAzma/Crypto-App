@@ -10,6 +10,7 @@ import Loading from '../components/Loading';
 import {SocketContext} from '../contexts/SocketContext';
 import {state$} from '../GlobalState';
 import {getCoinList} from '../utils/ApiCalls';
+import {keysOf} from '../utils/HelperFunctions';
 import {BLACK} from '../utils/Theme';
 
 function HomeScreen() {
@@ -18,7 +19,11 @@ function HomeScreen() {
     queryKey: ['coin', 'list'],
     queryFn: async () => {
       const data = await getCoinList();
-      state$.coinToPriceMap.set(data);
+      const coinToPriceArray = keysOf(data).map((coinName) => ({
+        name: coinName,
+        price: data[coinName],
+      }));
+      state$.coins.set(coinToPriceArray);
       return null;
     },
     refetchInterval: 3000,

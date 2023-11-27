@@ -1,5 +1,6 @@
 import {MaterialCommunityIcons} from '@expo/vector-icons';
-import {useNavigation} from '@react-navigation/native';
+import {ParamListBase, useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
 import {StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -7,9 +8,9 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {WHITE} from '../utils/Theme';
 
 function HeaderSearch() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NativeStackNavigationProp<ParamListBase>>();
   function searchPress() {
-    navigation.navigate('SearchScreen' as never);
+    navigation.navigate('SearchScreen');
   }
 
   return (

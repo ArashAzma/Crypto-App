@@ -1,35 +1,43 @@
 import {ObservablePrimitiveChildFns} from '@legendapp/state';
 import {Computed} from '@legendapp/state/react';
-import React from 'react';
+import React, {useRef, useEffect} from 'react';
 import {StyleSheet, TextInput} from 'react-native';
 
-import {DARK_BLUE, WHITE} from '../utils/Theme';
+import {WHITE} from '../utils/Theme';
 
 type TextFieldProps = {
-  text$: ObservablePrimitiveChildFns<string>;
+  text: string;
+  setText: React.Dispatch<React.SetStateAction<string>>;
   debouncedText$: ObservablePrimitiveChildFns<string>;
 };
 
 function TextField(props: TextFieldProps) {
-  const {text$, debouncedText$} = props;
+  const {text, setText, debouncedText$} = props;
+
+  const inputRef = useRef<TextInput>(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
 
   let timerId: NodeJS.Timeout;
 
-  function handleChangeText(text: string) {
-    debouncedText$.set(text);
+  function onChangeText(searchText: string) {
+    setText(searchText);
     clearTimeout(timerId);
 
     timerId = setTimeout(() => {
-      text$.set(text);
+      debouncedText$.set(searchText);
     }, 500);
   }
 
   return (
     <Computed>
       <TextInput
-        value={debouncedText$.get()}
-        style={styles.searchContainer}
-        onChangeText={handleChangeText}
+        ref={inputRef}
+        value={text}
+        style={styles.container}
+        onChangeText={onChangeText}
         placeholder='Type something...'
         placeholderTextColor={WHITE}
       />
@@ -38,10 +46,7 @@ function TextField(props: TextFieldProps) {
 }
 
 const styles = StyleSheet.create({
-  searchContainer: {
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    backgroundColor: DARK_BLUE,
+  container: {
     color: WHITE,
     width: '100%',
     height: '100%',

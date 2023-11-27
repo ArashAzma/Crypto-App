@@ -10,5 +10,7 @@ export function getDifferencePercent(x1: number, x2: number) {
 }
 
 export function capitalize(str: string) {
-  return str.at(0)?.toUpperCase() + str.slice(1);
+  if (!str) return '';
+
+  return str?.at(0)?.toUpperCase() + str?.slice(1);
 }

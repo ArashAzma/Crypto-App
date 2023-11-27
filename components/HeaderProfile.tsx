@@ -15,8 +15,8 @@ function HeaderProfile() {
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
-      <UserName />
-      <UserProfile />
+      <UserName style={styles.userName} />
+      <UserProfile style={styles.image} />
     </TouchableOpacity>
   );
 }
@@ -30,5 +30,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
     height: '100%',
+  },
+  userName: {
+    fontSize: 13,
+  },
+  image: {
+    width: 45,
+    height: 45,
+    borderRadius: 22.5,
   },
 });

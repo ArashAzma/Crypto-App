@@ -7,11 +7,12 @@ import {screenWidth} from '../utils/Dimensions';
 import {DARK_BLUE, WHITE} from '../utils/Theme';
 
 type TextFieldProps = TextInputProps & {
+  showIcons: boolean;
   debouncedText$: ObservablePrimitiveChildFns<string>;
 };
 
 function TextField(props: TextFieldProps) {
-  const {debouncedText$, ...rest} = props;
+  const {showIcons, debouncedText$, ...rest} = props;
 
   const [text, setText] = useState('');
 
@@ -39,7 +40,7 @@ function TextField(props: TextFieldProps) {
         text={text}
         setText={setText}
         debouncedText$={debouncedText$}
-        showIcons
+        showIcons={showIcons}
       />
     </View>
   );

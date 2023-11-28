@@ -11,7 +11,11 @@ function HeaderSearchScreen(props: HeaderSearchScreenProps) {
   const {debouncedText$} = props;
 
   return (
-    <TextField debouncedText$={debouncedText$} placeholder='Search coins ...' />
+    <TextField
+      debouncedText$={debouncedText$}
+      placeholder='Search coins ...'
+      showIcons
+    />
   );
 }
 

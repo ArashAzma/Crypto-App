@@ -9,9 +9,9 @@ type EmptySearchListProps = {
 
 function EmptySearchList(props: EmptySearchListProps) {
   const {debouncedText} = props;
-  const showImage = useSelector(debouncedText);
+  const searchText = useSelector(debouncedText);
 
-  if (showImage.length === 0) return;
+  if (searchText.length === 0) return;
 
   return (
     <View style={styles.container}>

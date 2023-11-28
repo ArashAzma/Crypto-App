@@ -38,7 +38,9 @@ function SearchScreen() {
           ListHeaderComponent={
             <HeaderSearchScreen debouncedText$={search$.debouncedText} />
           }
-          ListEmptyComponent={<EmptySearchList />}
+          ListEmptyComponent={
+            <EmptySearchList debouncedText={search$.debouncedText} />
+          }
           renderItem={({index}) => <CoinItem coin$={coins$[index]} />}
         />
       </Computed>

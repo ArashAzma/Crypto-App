@@ -1,7 +1,18 @@
+import {ObservablePrimitiveChildFns} from '@legendapp/state';
+import {useSelector} from '@legendapp/state/react';
 import React from 'react';
 import {View, Image, StyleSheet} from 'react-native';
 
-function EmptySearchList() {
+type EmptySearchListProps = {
+  debouncedText: ObservablePrimitiveChildFns<string>;
+};
+
+function EmptySearchList(props: EmptySearchListProps) {
+  const {debouncedText} = props;
+  const showImage = useSelector(debouncedText);
+
+  if (showImage.length === 0) return;
+
   return (
     <View style={styles.container}>
       <Image source={require(`../assets/not_found.png`)} style={styles.image} />

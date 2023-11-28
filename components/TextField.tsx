@@ -1,24 +1,19 @@
 import {ObservablePrimitiveChildFns} from '@legendapp/state';
-import {Computed} from '@legendapp/state/react';
-import React, {useRef, useEffect} from 'react';
-import {StyleSheet, TextInput} from 'react-native';
+import React from 'react';
+import {StyleSheet, TextInput, TextInputProps, View} from 'react-native';
 
-import {WHITE} from '../utils/Theme';
+import TextFieldLabel from './TextFieldLabel';
+import {screenWidth} from '../utils/Dimensions';
+import {DARK_BLUE, WHITE} from '../utils/Theme';
 
-type TextFieldProps = {
+type TextFieldProps = TextInputProps & {
   text: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
   debouncedText$: ObservablePrimitiveChildFns<string>;
 };
 
 function TextField(props: TextFieldProps) {
-  const {text, setText, debouncedText$} = props;
-
-  const inputRef = useRef<TextInput>(null);
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, []);
+  const {text, setText, debouncedText$, ...rest} = props;
 
   let timerId: NodeJS.Timeout;
 
@@ -32,21 +27,36 @@ function TextField(props: TextFieldProps) {
   }
 
   return (
-    <Computed>
+    <View style={styles.container}>
       <TextInput
-        ref={inputRef}
-        value={text}
-        style={styles.container}
+        autoFocus
+        style={styles.textInput}
         onChangeText={onChangeText}
-        placeholder='Type something...'
         placeholderTextColor={WHITE}
+        {...rest}
       />
-    </Computed>
+      <TextFieldLabel
+        text={text}
+        setText={setText}
+        debouncedText$={debouncedText$}
+        showIcons
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: DARK_BLUE,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    width: screenWidth * 0.9,
+    height: 55,
+    borderRadius: 14,
+    marginVertical: 60,
+  },
+  textInput: {
     color: WHITE,
     width: '100%',
     height: '100%',

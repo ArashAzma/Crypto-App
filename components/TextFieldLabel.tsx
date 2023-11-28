@@ -9,15 +9,18 @@ type TextFieldLabelProps = {
   text: string;
   setText: React.Dispatch<React.SetStateAction<string>>;
   debouncedText$: ObservablePrimitiveChildFns<string>;
+  showIcons: boolean;
 };
 
 function TextFieldLabel(props: TextFieldLabelProps) {
-  const {text, setText, debouncedText$} = props;
+  const {text, setText, debouncedText$, showIcons} = props;
 
   function deleteText() {
     setText('');
     debouncedText$.set('');
   }
+
+  if (!showIcons) return;
 
   if (text.length === 0) {
     return (

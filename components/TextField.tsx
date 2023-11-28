@@ -30,6 +30,7 @@ function TextField(props: TextFieldProps) {
   return (
     <View style={styles.container}>
       <TextInput
+        value={text}
         autoFocus
         style={styles.textInput}
         onChangeText={onChangeText}

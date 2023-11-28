@@ -2,6 +2,7 @@ import {LinearGradient} from 'expo-linear-gradient';
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 
+import {useRootNavigation} from './AppNavigation';
 import Button from '../components/Button';
 import UserGender from '../components/UserGender';
 import UserName from '../components/UserName';
@@ -10,6 +11,12 @@ import {screenWidth} from '../utils/Dimensions';
 import {BLACK, DARK_BLUE} from '../utils/Theme';
 
 function ProfileScreen() {
+  const navigation = useRootNavigation();
+
+  function onPress() {
+    navigation.navigate('ProfileChangeScreen');
+  }
+
   return (
     <View style={styles.continer}>
       <LinearGradient
@@ -21,7 +28,7 @@ function ProfileScreen() {
       <UserProfile style={styles.image} />
       <UserName style={styles.userName} />
       <UserGender />
-      <Button title='change info' />
+      <Button title='change info' onPress={onPress} />
     </View>
   );
 }

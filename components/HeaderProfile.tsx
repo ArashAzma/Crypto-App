@@ -1,16 +1,15 @@
-import {ParamListBase, useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 
 import UserName from './UserName';
 import UserProfile from './UserProfile';
+import {useRootNavigation} from '../screens/AppNavigation';
 
 function HeaderProfile() {
-  const naviagtion = useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const naviagtion = useRootNavigation();
 
   function onPress() {
-    naviagtion.navigate('Profile');
+    naviagtion.navigate('ProfileScreen');
   }
 
   return (

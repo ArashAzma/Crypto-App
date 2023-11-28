@@ -1,6 +1,6 @@
 import {ObservableComputed} from '@legendapp/state';
 import {Computed, useComputed, useObservable} from '@legendapp/state/react';
-import React, {useState} from 'react';
+import React from 'react';
 import {View, StyleSheet, FlatList} from 'react-native';
 
 import CoinItem from '../components/CoinItem';
@@ -15,7 +15,6 @@ type SearchState = {
 };
 
 function SearchScreen() {
-  const [text, setText] = useState('');
   const search$ = useObservable<SearchState>({
     debouncedText: '',
   });
@@ -37,11 +36,7 @@ function SearchScreen() {
         <FlatList
           data={coins$.get()}
           ListHeaderComponent={
-            <HeaderSearchScreen
-              text={text}
-              setText={setText}
-              debouncedText$={search$.debouncedText}
-            />
+            <HeaderSearchScreen debouncedText$={search$.debouncedText} />
           }
           ListEmptyComponent={<EmptySearchList />}
           renderItem={({index}) => <CoinItem coin$={coins$[index]} />}

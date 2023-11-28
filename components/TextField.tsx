@@ -1,5 +1,5 @@
 import {ObservablePrimitiveChildFns} from '@legendapp/state';
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, TextInput, TextInputProps, View} from 'react-native';
 
 import TextFieldLabel from './TextFieldLabel';
@@ -7,13 +7,13 @@ import {screenWidth} from '../utils/Dimensions';
 import {DARK_BLUE, WHITE} from '../utils/Theme';
 
 type TextFieldProps = TextInputProps & {
-  text: string;
-  setText: React.Dispatch<React.SetStateAction<string>>;
   debouncedText$: ObservablePrimitiveChildFns<string>;
 };
 
 function TextField(props: TextFieldProps) {
-  const {text, setText, debouncedText$, ...rest} = props;
+  const {debouncedText$, ...rest} = props;
+
+  const [text, setText] = useState('');
 
   let timerId: NodeJS.Timeout;
 

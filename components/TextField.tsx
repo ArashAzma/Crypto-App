@@ -7,12 +7,12 @@ import {screenWidth} from '../utils/Dimensions';
 import {DARK_BLUE, WHITE} from '../utils/Theme';
 
 type TextFieldProps = TextInputProps & {
-  showIcons: boolean;
+  showIcon: boolean;
   debouncedText$: ObservablePrimitiveChildFns<string>;
 };
 
 function TextField(props: TextFieldProps) {
-  const {showIcons, debouncedText$, ...rest} = props;
+  const {showIcon, debouncedText$, ...rest} = props;
 
   const [text, setText] = useState('');
 
@@ -27,6 +27,11 @@ function TextField(props: TextFieldProps) {
     }, 500);
   }
 
+  function onPress() {
+    setText('');
+    debouncedText$.set('');
+  }
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -38,10 +43,8 @@ function TextField(props: TextFieldProps) {
         {...rest}
       />
       <TextFieldLabel
-        text={text}
-        setText={setText}
-        debouncedText$={debouncedText$}
-        showIcons={showIcons}
+        showIcon={showIcon ? (text.length !== 0 ? 'close' : 'magnify') : null}
+        onPress={onPress}
       />
     </View>
   );

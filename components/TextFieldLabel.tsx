@@ -1,28 +1,20 @@
 import {MaterialCommunityIcons} from '@expo/vector-icons';
-import {ObservablePrimitiveChildFns} from '@legendapp/state';
 import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 
 import {RED, WHITE} from '../utils/Theme';
 
 type TextFieldLabelProps = {
-  text: string;
-  setText: React.Dispatch<React.SetStateAction<string>>;
-  debouncedText$: ObservablePrimitiveChildFns<string>;
-  showIcons: boolean;
+  showIcon: 'magnify' | 'close' | null;
+  onPress: () => void;
 };
 
 function TextFieldLabel(props: TextFieldLabelProps) {
-  const {text, setText, debouncedText$, showIcons} = props;
+  const {showIcon, onPress} = props;
 
-  function deleteText() {
-    setText('');
-    debouncedText$.set('');
-  }
+  if (!showIcon) return null;
 
-  if (!showIcons) return;
-
-  if (text.length === 0) {
+  if (showIcon === 'magnify') {
     return (
       <MaterialCommunityIcons
         name='magnify'
@@ -33,7 +25,7 @@ function TextFieldLabel(props: TextFieldLabelProps) {
     );
   }
   return (
-    <TouchableOpacity onPress={deleteText} style={styles.container}>
+    <TouchableOpacity onPress={onPress} style={styles.container}>
       <MaterialCommunityIcons name='close' size={24} color={RED} />
     </TouchableOpacity>
   );

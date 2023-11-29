@@ -14,7 +14,7 @@ function HeaderSearchScreen(props: HeaderSearchScreenProps) {
     <TextField
       debouncedText$={debouncedText$}
       placeholder='Search coins ...'
-      showIcons
+      showIcon
     />
   );
 }

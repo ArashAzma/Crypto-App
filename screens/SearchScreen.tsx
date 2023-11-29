@@ -43,7 +43,9 @@ function SearchScreen() {
             />
           }
           ListEmptyComponent={
-            <EmptySearchList debouncedText={search$.debouncedText} />
+            <EmptySearchList
+              isShow={search$.debouncedText.get().length !== 0}
+            />
           }
           renderItem={({index}) => <CoinItem coin$={coins$[index]} />}
         />

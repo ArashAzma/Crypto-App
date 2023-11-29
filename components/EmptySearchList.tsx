@@ -1,17 +1,14 @@
-import {ObservablePrimitiveChildFns} from '@legendapp/state';
-import {useSelector} from '@legendapp/state/react';
 import React from 'react';
 import {View, Image, StyleSheet} from 'react-native';
 
 type EmptySearchListProps = {
-  debouncedText: ObservablePrimitiveChildFns<string>;
+  isShow: boolean;
 };
 
 function EmptySearchList(props: EmptySearchListProps) {
-  const {debouncedText} = props;
-  const searchText = useSelector(debouncedText);
+  const {isShow} = props;
 
-  if (searchText.length === 0) return;
+  if (!isShow) return null;
 
   return (
     <View style={styles.container}>

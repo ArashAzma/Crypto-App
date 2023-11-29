@@ -5,7 +5,7 @@ import {View, StyleSheet, FlatList} from 'react-native';
 
 import CoinItem from '../components/CoinItem';
 import EmptySearchList from '../components/EmptySearchList';
-import HeaderSearchScreen from '../components/HeaderSearchScreen';
+import TextField from '../components/TextField';
 import {state$} from '../GlobalState';
 import {BLACK, WHITE} from '../utils/Theme';
 import {type Coin} from '../utils/Types';
@@ -36,7 +36,11 @@ function SearchScreen() {
         <FlatList
           data={coins$.get()}
           ListHeaderComponent={
-            <HeaderSearchScreen debouncedText$={search$.debouncedText} />
+            <TextField
+              debouncedText$={search$.debouncedText}
+              placeholder='Search coins ...'
+              showIcon
+            />
           }
           ListEmptyComponent={
             <EmptySearchList debouncedText={search$.debouncedText} />

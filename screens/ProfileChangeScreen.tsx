@@ -60,18 +60,21 @@ function ProfileChangeScreen() {
             <UserProfile style={styles.image} />
           </View>
           <TextField
-            debouncedText$={info$.imageUrl}
-            placeholder={settings$.user.imageUrl.peek()}
-            showIcon={false}
-          />
-          <TextField
             debouncedText$={info$.firstName}
-            placeholder={settings$.user.firstName.peek()}
+            placeholder='Enter your first name'
+            value={settings$.user.firstName.peek()}
             showIcon={false}
           />
           <TextField
             debouncedText$={info$.lastName}
-            placeholder={settings$.user.lastName.peek()}
+            placeholder='Enter your last name'
+            value={settings$.user.lastName.peek()}
+            showIcon={false}
+          />
+          <TextField
+            debouncedText$={info$.imageUrl}
+            placeholder='Enter your image url'
+            value={settings$.user.imageUrl.peek()}
             showIcon={false}
           />
           <View style={styles.itemContainer}>

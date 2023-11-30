@@ -43,7 +43,7 @@ function TextField(props: TextFieldProps) {
         {...rest}
       />
       <TextFieldLabel
-        showIcon={showIcon ? (text.length !== 0 ? 'close' : 'magnify') : null}
+        showIcon={showIcon && text.length !== 0 ? 'close' : 'magnify'}
         onPress={onPress}
       />
     </View>

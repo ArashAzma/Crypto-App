@@ -5,7 +5,7 @@ import {StyleSheet, TouchableOpacity} from 'react-native';
 import {RED, WHITE} from '../utils/Theme';
 
 type TextFieldLabelProps = {
-  showIcon: 'magnify' | 'close' | null;
+  showIcon: 'magnify' | 'close';
   onPress: () => void;
 };
 

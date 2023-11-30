@@ -6,12 +6,13 @@ import TextFieldLabel from './TextFieldLabel';
 import {DARK_BLUE, WHITE} from '../utils/Theme';
 
 type TextFieldProps = TextInputProps & {
+  autoFocus?: boolean;
   showIcon: boolean;
   debouncedText$: ObservablePrimitiveChildFns<string>;
 };
 
 function TextField(props: TextFieldProps) {
-  const {showIcon, debouncedText$, ...rest} = props;
+  const {autoFocus = false, showIcon, debouncedText$, ...rest} = props;
 
   const [text, setText] = useState('');
 
@@ -37,7 +38,7 @@ function TextField(props: TextFieldProps) {
     <View style={styles.container}>
       <TextInput
         value={text}
-        autoFocus
+        autoFocus={autoFocus}
         style={styles.textInput}
         onChangeText={onChangeText}
         placeholderTextColor={WHITE}

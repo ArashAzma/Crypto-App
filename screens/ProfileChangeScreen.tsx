@@ -37,7 +37,13 @@ function ProfileChangeScreen() {
 
   function onPress() {
     const gender = info$.gender.peek();
+    const firstName = info$.firstName.peek();
+    const lastName = info$.lastName.peek();
+
     settings$.user.gender.set(gender);
+    settings$.user.firstName.set(firstName);
+    settings$.user.lastName.set(lastName);
+
     navigation.goBack();
   }
 
@@ -50,12 +56,12 @@ function ProfileChangeScreen() {
         </View>
         <TextField
           debouncedText$={info$.firstName}
-          placeholder='First name'
+          placeholder={settings$.user.firstName.peek()}
           showIcon={false}
         />
         <TextField
           debouncedText$={info$.lastName}
-          placeholder='Last name'
+          placeholder={settings$.user.lastName.peek()}
           showIcon={false}
         />
         <View style={styles.itemContainer}>
@@ -89,7 +95,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
     gap: 20,
@@ -117,13 +123,13 @@ const styles = StyleSheet.create({
     color: WHITE,
     fontWeight: '900',
     fontSize: 14,
-    opacity: 0.45,
+    opacity: 0.6,
   },
   text: {
     color: WHITE,
     fontWeight: '900',
     fontSize: 16,
-    opacity: 0.6,
+    opacity: 0.7,
   },
 });
 

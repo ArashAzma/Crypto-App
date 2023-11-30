@@ -40,6 +40,7 @@ function SearchScreen() {
               debouncedText$={search$.debouncedText}
               placeholder='Search coins ...'
               showIcon
+              autoFocus
             />
           }
           ListEmptyComponent={

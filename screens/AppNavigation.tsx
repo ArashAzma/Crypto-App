@@ -4,14 +4,17 @@ import React from 'react';
 
 import HomeScreen from './HomeScreen';
 import ProfileScreen from './ProfileScreen';
+import SearchScreen from './SearchScreen';
+
 const Stack = createNativeStackNavigator();
 
 function AppNavigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name='Home' component={HomeScreen} />
-        <Stack.Screen name='Profile' component={ProfileScreen} />
+        <Stack.Screen name='HomeScreen' component={HomeScreen} />
+        <Stack.Screen name='ProfileScreen' component={ProfileScreen} />
+        <Stack.Screen name='SearchScreen' component={SearchScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

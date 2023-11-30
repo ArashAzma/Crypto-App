@@ -31,8 +31,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   text: {
-    width: 150,
-    fontSize: 20,
+    width: 170,
+    fontSize: 18,
     color: WHITE,
     fontWeight: '900',
     opacity: 0.7,

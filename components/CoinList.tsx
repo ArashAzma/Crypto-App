@@ -8,17 +8,12 @@ import FearAndGreedIndex from './FearAndGreedIndex';
 import PinnedCoin from './PinnedCoin';
 import SwipeableCoin from './SwipeableCoin';
 import {settings$, state$} from '../GlobalState';
-import {keysOf} from '../utils/HelperFunctions';
 import {WHITE} from '../utils/Theme';
-import {type Coin, type CoinName} from '../utils/Types';
+import {type Coin} from '../utils/Types';
 
 function CoinList() {
   const coins$: ObservableComputed<Coin[]> = useComputed(() => {
-    const coinToPriceMap = state$.coinToPriceMap.get();
-    return keysOf(coinToPriceMap).map((coinName) => ({
-      name: coinName as CoinName,
-      price: Number(coinToPriceMap[coinName]),
-    }));
+    return state$.coins.get();
   });
 
   function getListHeaderJSX() {
@@ -39,7 +34,7 @@ function CoinList() {
   return (
     <Computed>
       <FlatList
-        data={coins$.get()}
+        data={state$.coins.get()}
         contentContainerStyle={styles.flatlist}
         ListHeaderComponent={getListHeaderJSX}
         renderItem={({index}) => {

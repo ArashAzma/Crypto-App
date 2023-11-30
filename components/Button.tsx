@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     width: screenWidth * 0.55,
     height: 35,
     borderRadius: 8,
+    marginTop: 12,
   },
   colorContainer: {
     position: 'absolute',

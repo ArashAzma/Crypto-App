@@ -8,7 +8,7 @@ import UserGender from '../components/UserGender';
 import UserName from '../components/UserName';
 import UserProfile from '../components/UserProfile';
 import {screenWidth} from '../utils/Dimensions';
-import {BLACK, DARK_BLUE} from '../utils/Theme';
+import {BLACK, DARK_BLUE, WHITE} from '../utils/Theme';
 
 function ProfileScreen() {
   const navigation = useRootNavigation();
@@ -26,7 +26,7 @@ function ProfileScreen() {
         end={{x: 0, y: 1}}
       />
       <UserProfile style={styles.image} />
-      <UserName style={styles.userName} />
+      <UserName style={styles.text} />
       <UserGender />
       <Button title='change info' onPress={onPress} />
     </View>
@@ -48,13 +48,26 @@ const styles = StyleSheet.create({
     height: '100%',
     opacity: 0.5,
   },
-  userName: {
-    fontSize: 28,
+  itemContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    gap: 20,
   },
   image: {
     width: 120,
     height: 120,
     borderRadius: 60,
+  },
+  text: {
+    fontSize: 22,
+  },
+  label: {
+    color: WHITE,
+    fontWeight: '900',
+    fontSize: 16,
+    opacity: 0.6,
   },
 });
 

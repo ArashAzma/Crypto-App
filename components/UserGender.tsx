@@ -10,6 +10,7 @@ function UserGender() {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.label}>Gender :</Text>
       <Text style={styles.text}>
         {gender === undefined
           ? "You currently haven't set up your gender."
@@ -23,12 +24,23 @@ export default UserGender;
 
 const styles = StyleSheet.create({
   container: {
-    width: 150,
-    height: 80,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    gap: 20,
   },
   text: {
+    width: 150,
     fontSize: 14,
     color: WHITE,
-    fontWeight: '200',
+    fontWeight: '900',
+    opacity: 0.7,
+  },
+  label: {
+    color: WHITE,
+    fontWeight: '900',
+    fontSize: 16,
+    opacity: 0.6,
   },
 });

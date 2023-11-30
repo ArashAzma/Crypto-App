@@ -6,7 +6,9 @@ import {RadioButtonProps} from 'react-native-radio-buttons-group';
 
 import Button from '../components/Button';
 import RadioButton from '../components/RadioButton';
+import UserProfile from '../components/UserProfile';
 import {settings$} from '../GlobalState';
+import {screenWidth} from '../utils/Dimensions';
 import {BLACK, WHITE} from '../utils/Theme';
 
 function ProfileChangeScreen() {
@@ -18,12 +20,12 @@ function ProfileChangeScreen() {
       {
         id: 'Male',
         label: 'Male',
-        labelStyle: {...styles.text},
+        labelStyle: {...styles.radioText},
       },
       {
         id: 'Female',
         label: 'Female',
-        labelStyle: {...styles.text},
+        labelStyle: {...styles.radioText},
       },
     ],
     [],
@@ -36,18 +38,32 @@ function ProfileChangeScreen() {
   }
 
   return (
-    <View style={styles.continer}>
-      <Text style={styles.text}>First name</Text>
-      <Text style={styles.text}>Last name</Text>
-      <Text style={styles.text}>Gender</Text>
-      <RadioButton radioButtons={radioButtons} selectedId={gender$} />
-      <Button title='Save changes' onPress={onPress} />
+    <View style={styles.container}>
+      <View style={styles.bodyContainer}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Account information</Text>
+          <UserProfile style={styles.image} />
+        </View>
+        <View style={styles.itemContainer}>
+          <Text style={styles.text}>Last name :</Text>
+        </View>
+        <View style={styles.itemContainer}>
+          <Text style={styles.text}>First name :</Text>
+        </View>
+        <View style={styles.itemContainer}>
+          <Text style={styles.text}>Gender :</Text>
+          <RadioButton radioButtons={radioButtons} selectedId={gender$} />
+        </View>
+        <View style={styles.itemContainer}>
+          <Button title='Save changes' onPress={onPress} />
+        </View>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  continer: {
+  container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -55,10 +71,53 @@ const styles = StyleSheet.create({
     paddingTop: 24,
     gap: 20,
   },
+  bodyContainer: {
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    width: screenWidth * 0.8,
+    height: '70%',
+    borderRadius: 24,
+    padding: 24,
+    gap: 20,
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    gap: 20,
+    marginBottom: 12,
+  },
+  image: {
+    width: 80,
+    height: 80,
+    borderRadius: 60,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    height: '26%',
+    paddingTop: 24,
+  },
+  headerText: {
+    color: WHITE,
+    fontWeight: '900',
+    fontSize: 28,
+    opacity: 0.8,
+  },
+  radioText: {
+    color: WHITE,
+    fontWeight: '900',
+    fontSize: 14,
+    opacity: 0.45,
+  },
   text: {
     color: WHITE,
-    fontWeight: '400',
+    fontWeight: '900',
     fontSize: 16,
+    opacity: 0.6,
   },
 });
 

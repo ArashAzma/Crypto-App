@@ -13,7 +13,8 @@ function UserName(props: UserNameProps) {
   const lastName = useSelector(settings$.user.lastName);
 
   return (
-    <View>
+    <View style={styles.container}>
+      <Text style={styles.label}>Name :</Text>
       <Text style={[styles.text, style]}>
         {firstName} {lastName}
       </Text>
@@ -24,8 +25,22 @@ function UserName(props: UserNameProps) {
 export default UserName;
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    gap: 20,
+  },
+  label: {
+    color: WHITE,
+    fontWeight: '900',
+    fontSize: 16,
+    opacity: 0.6,
+  },
   text: {
     color: WHITE,
-    fontWeight: '600',
+    fontWeight: '900',
+    opacity: 0.75,
   },
 });

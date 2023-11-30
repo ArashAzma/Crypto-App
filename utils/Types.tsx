@@ -13,3 +13,5 @@ export type CoinName =
   | 'tron'
   | 'fantom'
   | 'litecoin';
+
+export type Gender = 'Male' | 'Female' | undefined;

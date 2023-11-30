@@ -11,7 +11,9 @@ function UserGender() {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>
-        {gender === null ? "You currently haven't set up your gender." : gender}
+        {gender === undefined
+          ? "You currently haven't set up your gender."
+          : gender}
       </Text>
     </View>
   );

@@ -14,7 +14,7 @@ function Button(props: ButtonProps) {
         style={styles.colorContainer}
         colors={[GREEN, LIGHT_GREEN]}
         start={{x: 0, y: 0}}
-        end={{x: 0, y: 1}}
+        end={{x: 0, y: 1.5}}
       />
       <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
@@ -27,16 +27,16 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    width: screenWidth * 0.7,
-    height: 40,
-    borderRadius: 12,
+    width: screenWidth * 0.55,
+    height: 35,
+    borderRadius: 8,
   },
   colorContainer: {
     position: 'absolute',
-    width: screenWidth * 0.7,
+    width: screenWidth * 0.55,
     height: '100%',
-    borderRadius: 12,
     opacity: 0.7,
+    borderRadius: 8,
   },
   text: {
     color: WHITE,

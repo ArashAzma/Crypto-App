@@ -3,7 +3,6 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useMemo} from 'react';
 import {KeyboardAvoidingView, StyleSheet, Text, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {RadioButtonProps} from 'react-native-radio-buttons-group';
 
 import Button from '../components/Button';
 import RadioButton from '../components/RadioButton';
@@ -11,6 +10,7 @@ import TextField from '../components/TextField';
 import UserProfile from '../components/UserProfile';
 import {settings$} from '../GlobalState';
 import {BLACK, WHITE} from '../utils/Theme';
+import {type RadioButtonType} from '../utils/Types';
 
 function ProfileChangeScreen() {
   const navigation = useNavigation();
@@ -21,17 +21,15 @@ function ProfileChangeScreen() {
     imageUrl: settings$.user.imageUrl.get(),
   });
 
-  const radioButtons: RadioButtonProps[] = useMemo(
+  const radioButtons: RadioButtonType[] = useMemo(
     () => [
       {
         id: 'Male',
         label: 'Male',
-        labelStyle: {...styles.radioText},
       },
       {
         id: 'Female',
         label: 'Female',
-        labelStyle: {...styles.radioText},
       },
     ],
     [],
@@ -140,12 +138,6 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     fontSize: 28,
     opacity: 0.8,
-  },
-  radioText: {
-    color: WHITE,
-    fontWeight: '900',
-    fontSize: 14,
-    opacity: 0.6,
   },
   text: {
     color: WHITE,

@@ -15,3 +15,12 @@ export type CoinName =
   | 'litecoin';
 
 export type Gender = 'Male' | 'Female' | undefined;
+
+export type RadioButtonType = {
+  color?: string;
+  id: string;
+  key?: string;
+  label: string;
+  onPress?: (id: string) => void;
+  selected?: boolean;
+};

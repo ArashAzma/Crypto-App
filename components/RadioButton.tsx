@@ -1,12 +1,9 @@
 import {ObservablePrimitiveBaseFns} from '@legendapp/state';
 import {Computed} from '@legendapp/state/react';
 import React from 'react';
-import {
-  RadioGroup,
-  RadioButtonProps as RadioButtonType,
-} from 'react-native-radio-buttons-group';
 
-import {Gender} from '../utils/Types';
+import RadioGroup from './RadioGroup';
+import {type Gender, type RadioButtonType} from '../utils/Types';
 
 type RadioButtonProps = {
   radioButtons: RadioButtonType[];
@@ -26,7 +23,6 @@ function RadioButton(props: RadioButtonProps) {
         radioButtons={radioButtons}
         onPress={onPress}
         selectedId={selectedId.get()}
-        layout='row'
       />
     </Computed>
   );

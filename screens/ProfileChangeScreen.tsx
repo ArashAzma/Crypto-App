@@ -1,7 +1,8 @@
 import {useObservable} from '@legendapp/state/react';
 import {useNavigation} from '@react-navigation/native';
 import React, {useMemo} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {KeyboardAvoidingView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 import {RadioButtonProps} from 'react-native-radio-buttons-group';
 
 import Button from '../components/Button';
@@ -17,6 +18,7 @@ function ProfileChangeScreen() {
     firstName: settings$.user.firstName.get(),
     lastName: settings$.user.lastName.get(),
     gender: settings$.user.gender.get(),
+    imageUrl: settings$.user.imageUrl.get(),
   });
 
   const radioButtons: RadioButtonProps[] = useMemo(
@@ -39,46 +41,63 @@ function ProfileChangeScreen() {
     const gender = info$.gender.peek();
     const firstName = info$.firstName.peek();
     const lastName = info$.lastName.peek();
+    const imageUrl = info$.imageUrl.peek();
 
     settings$.user.gender.set(gender);
     settings$.user.firstName.set(firstName);
     settings$.user.lastName.set(lastName);
+    settings$.user.imageUrl.set(imageUrl);
 
     navigation.goBack();
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.bodyContainer}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Account information</Text>
-          <UserProfile style={styles.image} />
+    <ScrollView style={styles.scrollView}>
+      <KeyboardAvoidingView style={styles.container}>
+        <View style={styles.bodyContainer}>
+          <View style={styles.header}>
+            <Text style={styles.headerText}>Account information</Text>
+            <UserProfile style={styles.image} />
+          </View>
+          <TextField
+            debouncedText$={info$.imageUrl}
+            placeholder={settings$.user.imageUrl.peek()}
+            showIcon={false}
+          />
+          <TextField
+            debouncedText$={info$.firstName}
+            placeholder={settings$.user.firstName.peek()}
+            showIcon={false}
+          />
+          <TextField
+            debouncedText$={info$.lastName}
+            placeholder={settings$.user.lastName.peek()}
+            showIcon={false}
+          />
+          <View style={styles.itemContainer}>
+            <Text style={styles.text}>Gender :</Text>
+            <RadioButton
+              radioButtons={radioButtons}
+              selectedId={info$.gender}
+            />
+          </View>
+          <View style={styles.itemContainer}>
+            <Button title='Save changes' onPress={onPress} />
+          </View>
         </View>
-        <TextField
-          debouncedText$={info$.firstName}
-          placeholder={settings$.user.firstName.peek()}
-          showIcon={false}
-        />
-        <TextField
-          debouncedText$={info$.lastName}
-          placeholder={settings$.user.lastName.peek()}
-          showIcon={false}
-        />
-        <View style={styles.itemContainer}>
-          <Text style={styles.text}>Gender :</Text>
-          <RadioButton radioButtons={radioButtons} selectedId={info$.gender} />
-        </View>
-        <View style={styles.itemContainer}>
-          <Button title='Save changes' onPress={onPress} />
-        </View>
-      </View>
-    </View>
+      </KeyboardAvoidingView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollView: {
+    backgroundColor: BLACK,
+    paddingTop: 25,
+  },
   container: {
     flex: 1,
+    height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: BLACK,

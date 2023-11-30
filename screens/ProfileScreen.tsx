@@ -26,7 +26,7 @@ function ProfileScreen() {
         end={{x: 0, y: 1}}
       />
       <UserProfile style={styles.image} />
-      <UserName style={styles.text} />
+      <UserName style={styles.text} showLabel />
       <UserGender />
       <Button title='change info' onPress={onPress} />
     </View>

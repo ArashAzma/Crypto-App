@@ -14,7 +14,7 @@ function HeaderProfile() {
 
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
-      <UserName style={styles.userName} />
+      <UserName style={styles.userName} showLabel={false} />
       <UserProfile style={styles.image} />
     </TouchableOpacity>
   );

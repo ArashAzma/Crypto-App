@@ -5,16 +5,16 @@ import {StyleSheet, Text, View, TextStyle} from 'react-native';
 import {settings$} from '../GlobalState';
 import {WHITE} from '../utils/Theme';
 
-type UserNameProps = {style: TextStyle};
+type UserNameProps = {style: TextStyle; showLabel: boolean};
 
 function UserName(props: UserNameProps) {
-  const style = props.style;
+  const {style, showLabel} = props;
   const firstName = useSelector(settings$.user.firstName);
   const lastName = useSelector(settings$.user.lastName);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Name :</Text>
+      {showLabel && <Text style={styles.label}>Name :</Text>}
       <Text style={[styles.text, style]}>
         {firstName} {lastName}
       </Text>
@@ -29,7 +29,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%',
     gap: 20,
   },
   label: {

@@ -5,12 +5,12 @@ import {KeyboardAvoidingView, StyleSheet, Text, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 
 import Button from '../components/Button';
-import RadioButton from '../components/RadioButton';
+import RadioGroup from '../components/RadioGroup';
 import TextField from '../components/TextField';
 import UserProfile from '../components/UserProfile';
 import {settings$} from '../GlobalState';
 import {BLACK, WHITE} from '../utils/Theme';
-import {type RadioButtonType} from '../utils/Types';
+import {type Gender, type RadioButtonType} from '../utils/Types';
 
 function ProfileChangeScreen() {
   const navigation = useNavigation();
@@ -48,7 +48,9 @@ function ProfileChangeScreen() {
 
     navigation.goBack();
   }
-
+  function radioButtonPress(id: string) {
+    info$.gender.set(id as Gender);
+  }
   return (
     <ScrollView style={styles.scrollView}>
       <KeyboardAvoidingView style={styles.container}>
@@ -77,9 +79,10 @@ function ProfileChangeScreen() {
           />
           <View style={styles.itemContainer}>
             <Text style={styles.text}>Gender :</Text>
-            <RadioButton
+            <RadioGroup
               radioButtons={radioButtons}
-              selectedId={info$.gender}
+              onPress={radioButtonPress}
+              selectedId$={info$.gender}
             />
           </View>
           <View style={styles.itemContainer}>

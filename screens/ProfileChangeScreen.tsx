@@ -6,14 +6,18 @@ import {RadioButtonProps} from 'react-native-radio-buttons-group';
 
 import Button from '../components/Button';
 import RadioButton from '../components/RadioButton';
+import TextField from '../components/TextField';
 import UserProfile from '../components/UserProfile';
 import {settings$} from '../GlobalState';
-import {screenWidth} from '../utils/Dimensions';
 import {BLACK, WHITE} from '../utils/Theme';
 
 function ProfileChangeScreen() {
   const navigation = useNavigation();
-  const gender$ = useObservable(() => settings$.user.gender.get());
+  const info$ = useObservable({
+    firstName: settings$.user.firstName.get(),
+    lastName: settings$.user.lastName.get(),
+    gender: settings$.user.gender.get(),
+  });
 
   const radioButtons: RadioButtonProps[] = useMemo(
     () => [
@@ -32,7 +36,7 @@ function ProfileChangeScreen() {
   );
 
   function onPress() {
-    const gender = gender$.peek();
+    const gender = info$.gender.peek();
     settings$.user.gender.set(gender);
     navigation.goBack();
   }
@@ -44,15 +48,19 @@ function ProfileChangeScreen() {
           <Text style={styles.headerText}>Account information</Text>
           <UserProfile style={styles.image} />
         </View>
-        <View style={styles.itemContainer}>
-          <Text style={styles.text}>Last name :</Text>
-        </View>
-        <View style={styles.itemContainer}>
-          <Text style={styles.text}>First name :</Text>
-        </View>
+        <TextField
+          debouncedText$={info$.firstName}
+          placeholder='First name'
+          showIcon={false}
+        />
+        <TextField
+          debouncedText$={info$.lastName}
+          placeholder='Last name'
+          showIcon={false}
+        />
         <View style={styles.itemContainer}>
           <Text style={styles.text}>Gender :</Text>
-          <RadioButton radioButtons={radioButtons} selectedId={gender$} />
+          <RadioButton radioButtons={radioButtons} selectedId={info$.gender} />
         </View>
         <View style={styles.itemContainer}>
           <Button title='Save changes' onPress={onPress} />
@@ -72,9 +80,8 @@ const styles = StyleSheet.create({
     gap: 20,
   },
   bodyContainer: {
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    width: screenWidth * 0.8,
+    justifyContent: 'center',
+    alignItems: 'center',
     height: '70%',
     borderRadius: 24,
     padding: 24,
@@ -95,14 +102,13 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
     height: '26%',
-    paddingTop: 24,
   },
   headerText: {
     color: WHITE,
+    width: 200,
     fontWeight: '900',
     fontSize: 28,
     opacity: 0.8,

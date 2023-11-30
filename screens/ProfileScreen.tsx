@@ -26,8 +26,10 @@ function ProfileScreen() {
         end={{x: 0, y: 1}}
       />
       <UserProfile style={styles.image} />
-      <UserName style={styles.text} showLabel />
-      <UserGender />
+      <View>
+        <UserName style={styles.text} showLabel />
+        <UserGender />
+      </View>
       <Button title='change info' onPress={onPress} />
     </View>
   );
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
     borderRadius: 60,
   },
   text: {
-    fontSize: 22,
+    fontSize: 20,
   },
   label: {
     color: WHITE,

@@ -3,7 +3,6 @@ import React, {useState} from 'react';
 import {StyleSheet, TextInput, TextInputProps, View} from 'react-native';
 
 import TextFieldLabel from './TextFieldLabel';
-import {screenWidth} from '../utils/Dimensions';
 import {DARK_BLUE, WHITE} from '../utils/Theme';
 
 type TextFieldProps = TextInputProps & {
@@ -32,6 +31,8 @@ function TextField(props: TextFieldProps) {
     debouncedText$.set('');
   }
 
+  const icon = text.length !== 0 ? 'close' : 'magnify';
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -43,7 +44,7 @@ function TextField(props: TextFieldProps) {
         {...rest}
       />
       <TextFieldLabel
-        showIcon={showIcon && text.length !== 0 ? 'close' : 'magnify'}
+        showIcon={showIcon ? icon : undefined}
         onPress={onPress}
       />
     </View>
@@ -56,10 +57,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    width: screenWidth * 0.9,
     height: 55,
     borderRadius: 14,
-    marginVertical: 60,
+    marginBottom: 15,
   },
   textInput: {
     color: WHITE,

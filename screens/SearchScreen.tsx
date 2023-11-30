@@ -60,6 +60,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: BLACK,
+    paddingTop: 40,
+    paddingHorizontal: 15,
   },
   text: {
     color: WHITE,

@@ -8,6 +8,7 @@ import React from 'react';
 import HomeScreen from './HomeScreen';
 import ProfileChangeScreen from './ProfileChangeScreen';
 import ProfileScreen from './ProfileScreen';
+import SearchScreen from './SearchScreen';
 
 type RootStackParamList = {
   HomeScreen: undefined;
@@ -31,6 +32,7 @@ function AppNavigation() {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen name='HomeScreen' component={HomeScreen} />
         <Stack.Screen name='ProfileScreen' component={ProfileScreen} />
+        <Stack.Screen name='SearchScreen' component={SearchScreen} />
         <Stack.Screen
           name='ProfileChangeScreen'
           component={ProfileChangeScreen}

@@ -51,6 +51,7 @@ function ProfileChangeScreen() {
   function radioButtonPress(id: string) {
     info$.gender.set(id as Gender);
   }
+
   return (
     <ScrollView style={styles.scrollView}>
       <KeyboardAvoidingView style={styles.container}>
@@ -97,7 +98,7 @@ function ProfileChangeScreen() {
 const styles = StyleSheet.create({
   scrollView: {
     backgroundColor: BLACK,
-    paddingTop: 25,
+    paddingTop: '25%',
   },
   container: {
     flex: 1,

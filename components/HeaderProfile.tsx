@@ -3,7 +3,7 @@ import {StyleSheet, TouchableOpacity} from 'react-native';
 
 import UserName from './UserName';
 import UserProfile from './UserProfile';
-import {useRootNavigation} from '../screens/AppNavigation';
+import {useRootNavigation} from '../hooks/useRootNavigation';
 
 function HeaderProfile() {
   const naviagtion = useRootNavigation();

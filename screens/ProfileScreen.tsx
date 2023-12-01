@@ -2,11 +2,11 @@ import {LinearGradient} from 'expo-linear-gradient';
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 
-import {useRootNavigation} from './AppNavigation';
 import Button from '../components/Button';
 import UserGender from '../components/UserGender';
 import UserName from '../components/UserName';
 import UserProfile from '../components/UserProfile';
+import {useRootNavigation} from '../hooks/useRootNavigation';
 import {screenWidth} from '../utils/Dimensions';
 import {BLACK, DARK_BLUE, WHITE} from '../utils/Theme';
 

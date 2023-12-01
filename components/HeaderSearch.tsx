@@ -3,7 +3,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-import {useRootNavigation} from '../screens/AppNavigation';
+import {useRootNavigation} from '../hooks/useRootNavigation';
 import {WHITE} from '../utils/Theme';
 
 function HeaderSearch() {

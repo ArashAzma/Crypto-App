@@ -24,3 +24,10 @@ export type RadioButtonType = {
   onPress?: (id: string) => void;
   selected?: boolean;
 };
+
+export type RootStackParamList = {
+  HomeScreen: undefined;
+  SearchScreen: undefined;
+  ProfileScreen: undefined;
+  ProfileChangeScreen: undefined;
+};

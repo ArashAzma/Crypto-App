@@ -1,30 +1,14 @@
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
-import {
-  NativeStackNavigationProp,
-  createNativeStackNavigator,
-} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 
 import HomeScreen from './HomeScreen';
 import ProfileChangeScreen from './ProfileChangeScreen';
 import ProfileScreen from './ProfileScreen';
 import SearchScreen from './SearchScreen';
-
-type RootStackParamList = {
-  HomeScreen: undefined;
-  SearchScreen: undefined;
-  ProfileScreen: undefined;
-  ProfileChangeScreen: undefined;
-};
-
-type RootStackNavigation<T extends keyof RootStackParamList> =
-  NativeStackNavigationProp<RootStackParamList, T>;
+import {type RootStackParamList} from '../utils/Types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
-export function useRootNavigation<T extends keyof RootStackParamList>() {
-  return useNavigation<RootStackNavigation<T>>();
-}
 
 function AppNavigation() {
   return (

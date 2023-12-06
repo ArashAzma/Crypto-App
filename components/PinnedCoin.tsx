@@ -14,8 +14,11 @@ import Pin from './Pin';
 import PriceLabel from './PriceLabel';
 import {settings$, state$} from '../GlobalState';
 import {screenWidth} from '../utils/Dimensions';
-import {capitalize, getDifferencePercent} from '../utils/HelperFunctions';
-import {DARK_BLUE, GREEN, RED, WHITE} from '../utils/Theme';
+import {
+  calculatePercentageAndColor,
+  capitalize,
+} from '../utils/HelperFunctions';
+import {DARK_BLUE, WHITE} from '../utils/Theme';
 
 const DIMENSION = screenWidth * 0.9;
 
@@ -25,18 +28,6 @@ function PinnedCoin() {
     color: DARK_BLUE,
     isPinned: true,
   });
-  function calculatePercentageAndColor(
-    inDollar: number,
-    previousInDollar: number,
-  ) {
-    const current = inDollar;
-    const previous = previousInDollar;
-
-    const calculatedPercentage = getDifferencePercent(previous, current);
-    const roundedPercentage = Number(calculatedPercentage.toPrecision(2));
-    item$.percentage.set(roundedPercentage);
-    item$.color.set(calculatedPercentage > 0 ? GREEN : RED);
-  }
 
   useObserve(state$.pinnedCoin.priceHistory, () => {
     const currentInDollar = state$.pinnedCoin.priceHistory.get()?.at(-1);
@@ -44,7 +35,7 @@ function PinnedCoin() {
 
     if (!(currentInDollar && previousInDollar)) return;
 
-    calculatePercentageAndColor(currentInDollar, previousInDollar);
+    calculatePercentageAndColor(currentInDollar, previousInDollar, item$);
   });
 
   const computedTitle$ = useComputed(() => {

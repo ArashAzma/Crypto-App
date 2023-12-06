@@ -1,7 +1,7 @@
 import {ObservablePrimitiveBaseFns} from '@legendapp/state';
 import {Computed} from '@legendapp/state/react';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 
 import RadioButtonOption from './RadioButtonOption';
 import {type Gender, type RadioButtonType} from '../utils/Types';
@@ -10,10 +10,11 @@ type RadioGroupProps = {
   radioButtons: RadioButtonType[];
   selectedId$: ObservablePrimitiveBaseFns<NonNullable<Gender>>;
   onPress: (id: string) => void;
+  layout?: 'row' | 'column';
 };
 
 function RadioGroup(props: RadioGroupProps) {
-  const {radioButtons, selectedId$, onPress} = props;
+  const {radioButtons, selectedId$, onPress, layout = 'row'} = props;
 
   function handlePress(id: string) {
     if (id !== selectedId$.peek()) {
@@ -23,7 +24,7 @@ function RadioGroup(props: RadioGroupProps) {
 
   return (
     <Computed>
-      <View style={styles.container}>
+      <View style={{flexDirection: layout}}>
         {radioButtons.map((button) => (
           <RadioButtonOption
             {...button}
@@ -38,9 +39,3 @@ function RadioGroup(props: RadioGroupProps) {
 }
 
 export default RadioGroup;
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-  },
-});

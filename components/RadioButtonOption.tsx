@@ -30,7 +30,6 @@ export default RadioButtonOption;
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
     gap: 5,

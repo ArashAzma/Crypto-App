@@ -9,15 +9,18 @@ type UserNameProps = {style: TextStyle; showLabel: boolean};
 
 function UserName(props: UserNameProps) {
   const {style, showLabel} = props;
-  const firstName = useSelector(settings$.user.firstName);
-  const lastName = useSelector(settings$.user.lastName);
+
+  const name = useSelector(() => {
+    const firstName = settings$.user.firstName.get();
+    const lastName = settings$.user.lastName.get();
+
+    return `${firstName} ${lastName}`;
+  });
 
   return (
     <View style={styles.container}>
       {showLabel && <Text style={styles.label}>Name :</Text>}
-      <Text style={[styles.text, style]}>
-        {firstName} {lastName}
-      </Text>
+      <Text style={[styles.text, style]}>{name}</Text>
     </View>
   );
 }

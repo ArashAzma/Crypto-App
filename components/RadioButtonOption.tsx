@@ -4,15 +4,19 @@ import {StyleSheet, Text, Pressable} from 'react-native';
 
 import {WHITE} from '../utils/Theme';
 
-type RadioButtonProps = {selected: boolean; onPress: () => void; label: string};
+type RadioButtonProps = {
+  isSelected: boolean;
+  onPress: () => void;
+  label: string;
+};
 
 function RadioButtonOption(props: RadioButtonProps) {
-  const {selected, onPress, label} = props;
+  const {isSelected, onPress, label} = props;
 
   return (
     <Pressable onPress={onPress} style={styles.container}>
       <Ionicons
-        name={`radio-button-${selected ? 'on' : 'off'}`}
+        name={`radio-button-${isSelected ? 'on' : 'off'}`}
         size={28}
         color={WHITE}
         style={styles.button}

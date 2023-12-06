@@ -28,7 +28,7 @@ function RadioGroup(props: RadioGroupProps) {
           <RadioButtonOption
             {...button}
             key={button.id}
-            selected={button.id === selectedId$.get()}
+            isSelected={button.id === selectedId$.get()}
             onPress={() => handlePress(button.id)}
           />
         ))}

@@ -12,7 +12,7 @@ import Chart from './Chart';
 import PercentageLabel from './PercentageLabel';
 import Pin from './Pin';
 import PriceLabel from './PriceLabel';
-import {state$} from '../GlobalState';
+import {settings$, state$} from '../GlobalState';
 import {screenWidth} from '../utils/Dimensions';
 import {capitalize, getDifferencePercent} from '../utils/HelperFunctions';
 import {DARK_BLUE, GREEN, RED, WHITE} from '../utils/Theme';
@@ -25,15 +25,26 @@ function PinnedCoin() {
     color: DARK_BLUE,
     isPinned: true,
   });
+  function calculatePercentageAndColor(
+    inDollar: number,
+    previousInDollar: number,
+  ) {
+    const current = inDollar;
+    const previous = previousInDollar;
 
-  useObserve(() => {
-    const price = state$.pinnedCoin.priceHistory.get()?.at(-1);
-    const previousPrice = state$.pinnedCoin.priceHistory.get()?.at(-2);
-    if (price && previousPrice) {
-      const calculatedPercentage = getDifferencePercent(previousPrice, price);
-      item$.percentage.set(Number(calculatedPercentage.toPrecision(2)));
-      item$.color.set(calculatedPercentage > 0 ? GREEN : RED);
-    }
+    const calculatedPercentage = getDifferencePercent(previous, current);
+    const roundedPercentage = Number(calculatedPercentage.toPrecision(2));
+    item$.percentage.set(roundedPercentage);
+    item$.color.set(calculatedPercentage > 0 ? GREEN : RED);
+  }
+
+  useObserve(state$.pinnedCoin.priceHistory, () => {
+    const currentInDollar = state$.pinnedCoin.priceHistory.get()?.at(-1);
+    const previousInDollar = state$.pinnedCoin.priceHistory.get()?.at(-2);
+
+    if (!(currentInDollar && previousInDollar)) return;
+
+    calculatePercentageAndColor(currentInDollar, previousInDollar);
   });
 
   const computedTitle$ = useComputed(() => {
@@ -41,9 +52,17 @@ function PinnedCoin() {
     return capitalize(pinnedCoinName);
   });
   const computedPercentage$ = useComputed(() => item$.percentage.get());
-  const computedPrice$ = useComputed(
-    () => state$.pinnedCoin.priceHistory.get()?.at(-1) ?? 0,
-  );
+  const computedPrice$ = useComputed(() => {
+    const priceInDollar = state$.pinnedCoin.priceHistory.get()?.at(-1);
+    const isCurrencyDollar = settings$.isCurrencyDollar.get();
+    const dollarPriceInToman = state$.dollarPriceInToman.peek();
+
+    if (!priceInDollar) return 0;
+
+    return isCurrencyDollar
+      ? priceInDollar
+      : priceInDollar * dollarPriceInToman;
+  });
 
   return (
     <View style={styles.container}>

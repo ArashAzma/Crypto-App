@@ -4,16 +4,16 @@ import React from 'react';
 import {View} from 'react-native';
 
 import RadioButtonOption from './RadioButtonOption';
-import {type Gender, type RadioButtonType} from '../utils/Types';
+import {type RadioButtonType} from '../utils/Types';
 
-type RadioGroupProps = {
+type RadioGroupProps<T> = {
   radioButtons: RadioButtonType[];
-  selectedId$: ObservablePrimitiveBaseFns<NonNullable<Gender>>;
+  selectedId$: ObservablePrimitiveBaseFns<T>;
   onPress: (id: string) => void;
   layout?: 'row' | 'column';
 };
 
-function RadioGroup(props: RadioGroupProps) {
+function RadioGroup<T>(props: RadioGroupProps<T>) {
   const {radioButtons, selectedId$, onPress, layout = 'row'} = props;
 
   function handlePress(id: string) {

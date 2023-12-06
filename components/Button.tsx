@@ -5,7 +5,7 @@ import {StyleSheet, Text, TouchableOpacity, ButtonProps} from 'react-native';
 import {screenWidth} from '../utils/Dimensions';
 import {GREEN, LIGHT_GREEN, WHITE} from '../utils/Theme';
 
-function Button(props: ButtonProps) {
+function Button(props: Pick<ButtonProps, 'onPress' | 'title'>) {
   const {onPress, title} = props;
 
   return (

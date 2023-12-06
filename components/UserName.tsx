@@ -5,10 +5,10 @@ import {StyleSheet, Text, View, TextStyle} from 'react-native';
 import {settings$} from '../GlobalState';
 import {WHITE} from '../utils/Theme';
 
-type UserNameProps = {style: TextStyle; showLabel: boolean};
+type UserNameProps = {style: TextStyle; showLabel?: boolean};
 
 function UserName(props: UserNameProps) {
-  const {style, showLabel} = props;
+  const {style, showLabel = false} = props;
 
   const name = useSelector(() => {
     const firstName = settings$.user.firstName.get();

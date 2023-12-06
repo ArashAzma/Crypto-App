@@ -15,10 +15,10 @@ import {type Gender, type RadioButtonType} from '../utils/Types';
 function ProfileChangeScreen() {
   const navigation = useNavigation();
   const info$ = useObservable({
-    firstName: settings$.user.firstName.get(),
-    lastName: settings$.user.lastName.get(),
-    gender: settings$.user.gender.get(),
-    imageUrl: settings$.user.imageUrl.get(),
+    firstName: settings$.user.firstName.peek(),
+    lastName: settings$.user.lastName.peek(),
+    gender: settings$.user.gender.peek(),
+    imageUrl: settings$.user.imageUrl.peek(),
   });
 
   const radioButtons: RadioButtonType[] = useMemo(

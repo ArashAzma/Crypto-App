@@ -1,5 +1,5 @@
 import {ObservablePrimitiveChildFns} from '@legendapp/state';
-import React, {useState} from 'react';
+import React, {useRef} from 'react';
 import {StyleSheet, TextInput, TextInputProps, View} from 'react-native';
 
 import TextFieldLabel from './TextFieldLabel';
@@ -13,13 +13,10 @@ type TextFieldProps = TextInputProps & {
 
 function TextField(props: TextFieldProps) {
   const {value, autoFocus = false, showIcon, debouncedText$, ...rest} = props;
-
-  const [text, setText] = useState(value);
-
+  const textInputRef = useRef<TextInput>(null);
   let timerId: NodeJS.Timeout;
 
   function onChangeText(searchText: string) {
-    setText(searchText);
     clearTimeout(timerId);
 
     timerId = setTimeout(() => {
@@ -28,16 +25,17 @@ function TextField(props: TextFieldProps) {
   }
 
   function onPress() {
-    setText('');
+    textInputRef.current?.setNativeProps({text: ''});
     debouncedText$.set('');
   }
 
-  const icon = text?.length !== 0 ? 'close' : 'magnify';
+  const icon = value?.length !== 0 ? 'close' : 'magnify';
 
   return (
     <View style={styles.container}>
       <TextInput
-        value={text}
+        defaultValue={value}
+        ref={textInputRef}
         autoFocus={autoFocus}
         style={styles.textInput}
         onChangeText={onChangeText}

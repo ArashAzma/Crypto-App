@@ -63,19 +63,19 @@ function ProfileChangeScreen() {
           <TextField
             debouncedText$={info$.firstName}
             placeholder='Enter your first name'
-            value={settings$.user.firstName.peek()}
+            defaultValue={settings$.user.firstName.peek()}
             showIcon={false}
           />
           <TextField
             debouncedText$={info$.lastName}
             placeholder='Enter your last name'
-            value={settings$.user.lastName.peek()}
+            defaultValue={settings$.user.lastName.peek()}
             showIcon={false}
           />
           <TextField
             debouncedText$={info$.imageUrl}
             placeholder='Enter your image url'
-            value={settings$.user.imageUrl.peek()}
+            defaultValue={settings$.user.imageUrl.peek()}
             showIcon={false}
           />
           <View style={styles.itemContainer}>

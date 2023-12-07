@@ -12,7 +12,13 @@ type TextFieldProps = TextInputProps & {
 };
 
 function TextField(props: TextFieldProps) {
-  const {value, autoFocus = false, showIcon, debouncedText$, ...rest} = props;
+  const {
+    defaultValue,
+    autoFocus = false,
+    showIcon,
+    debouncedText$,
+    ...rest
+  } = props;
   const textInputRef = useRef<TextInput>(null);
   let timerId: NodeJS.Timeout;
 
@@ -29,12 +35,12 @@ function TextField(props: TextFieldProps) {
     debouncedText$.set('');
   }
 
-  const icon = value?.length !== 0 ? 'close' : 'magnify';
+  const icon = defaultValue?.length !== 0 ? 'close' : 'magnify';
 
   return (
     <View style={styles.container}>
       <TextInput
-        defaultValue={value}
+        defaultValue={defaultValue}
         ref={textInputRef}
         autoFocus={autoFocus}
         style={styles.textInput}

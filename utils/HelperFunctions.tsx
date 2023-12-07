@@ -18,20 +18,21 @@ export function capitalize(str: string) {
 
   return str?.at(0)?.toUpperCase() + str?.slice(1);
 }
-export function calculatePercentageAndColor(
-  inDollar: number,
-  previousInDollar: number,
+export function calculatePercentageAndColorViaValues(
+  currentValue: number,
+  previousValue: number,
   item$: ObservableObject<{
     percentage: number;
     color: string;
     isPinned: boolean;
   }>,
 ) {
-  const current = inDollar;
-  const previous = previousInDollar;
-
-  const calculatedPercentage = getDifferencePercent(previous, current);
+  const calculatedPercentage = getDifferencePercent(
+    previousValue,
+    currentValue,
+  );
   const roundedPercentage = Number(calculatedPercentage.toPrecision(2));
+
   item$.percentage.set(roundedPercentage);
   item$.color.set(calculatedPercentage > 0 ? GREEN : RED);
 }

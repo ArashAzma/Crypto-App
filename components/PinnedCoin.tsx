@@ -15,7 +15,7 @@ import PriceLabel from './PriceLabel';
 import {settings$, state$} from '../GlobalState';
 import {screenWidth} from '../utils/Dimensions';
 import {
-  calculatePercentageAndColor,
+  calculatePercentageAndColorViaValues,
   capitalize,
 } from '../utils/HelperFunctions';
 import {DARK_BLUE, WHITE} from '../utils/Theme';
@@ -35,7 +35,11 @@ function PinnedCoin() {
 
     if (!(currentInDollar && previousInDollar)) return;
 
-    calculatePercentageAndColor(currentInDollar, previousInDollar, item$);
+    calculatePercentageAndColorViaValues(
+      currentInDollar,
+      previousInDollar,
+      item$,
+    );
   });
 
   const computedTitle$ = useComputed(() => {

@@ -23,8 +23,8 @@ function RadioGroup<T>(props: RadioGroupProps<T>) {
   }
 
   return (
-    <Computed>
-      <View style={{flexDirection: layout}}>
+    <View style={{flexDirection: layout}}>
+      <Computed>
         {radioButtons.map((button) => (
           <RadioButtonOption
             {...button}
@@ -33,8 +33,8 @@ function RadioGroup<T>(props: RadioGroupProps<T>) {
             onPress={() => handlePress(button.id)}
           />
         ))}
-      </View>
-    </Computed>
+      </Computed>
+    </View>
   );
 }
 

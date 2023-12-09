@@ -13,3 +13,21 @@ export type CoinName =
   | 'tron'
   | 'fantom'
   | 'litecoin';
+
+export type Gender = 'Male' | 'Female' | undefined;
+
+export type RadioButtonType = {
+  color?: string;
+  id: string;
+  key?: string;
+  label: string;
+  onPress?: (id: string) => void;
+  selected?: boolean;
+};
+
+export type RootStackParamList = {
+  HomeScreen: undefined;
+  SearchScreen: undefined;
+  ProfileScreen: undefined;
+  ProfileChangeScreen: undefined;
+};

@@ -12,10 +12,13 @@ import Chart from './Chart';
 import PercentageLabel from './PercentageLabel';
 import Pin from './Pin';
 import PriceLabel from './PriceLabel';
-import {state$} from '../GlobalState';
+import {settings$, state$} from '../GlobalState';
 import {screenWidth} from '../utils/Dimensions';
-import {capitalize, getDifferencePercent} from '../utils/HelperFunctions';
-import {DARK_BLUE, GREEN, RED, WHITE} from '../utils/Theme';
+import {
+  calculatePercentageAndColorViaValues,
+  capitalize,
+} from '../utils/HelperFunctions';
+import {DARK_BLUE, WHITE} from '../utils/Theme';
 
 const DIMENSION = screenWidth * 0.9;
 
@@ -26,14 +29,17 @@ function PinnedCoin() {
     isPinned: true,
   });
 
-  useObserve(() => {
-    const price = state$.pinnedCoin.priceHistory.get()?.at(-1);
-    const previousPrice = state$.pinnedCoin.priceHistory.get()?.at(-2);
-    if (price && previousPrice) {
-      const calculatedPercentage = getDifferencePercent(previousPrice, price);
-      item$.percentage.set(Number(calculatedPercentage.toPrecision(2)));
-      item$.color.set(calculatedPercentage > 0 ? GREEN : RED);
-    }
+  useObserve(state$.pinnedCoin.priceHistory, () => {
+    const currentInDollar = state$.pinnedCoin.priceHistory.get()?.at(-1);
+    const previousInDollar = state$.pinnedCoin.priceHistory.get()?.at(-2);
+
+    if (!(currentInDollar && previousInDollar)) return;
+
+    calculatePercentageAndColorViaValues(
+      currentInDollar,
+      previousInDollar,
+      item$,
+    );
   });
 
   const computedTitle$ = useComputed(() => {
@@ -41,9 +47,17 @@ function PinnedCoin() {
     return capitalize(pinnedCoinName);
   });
   const computedPercentage$ = useComputed(() => item$.percentage.get());
-  const computedPrice$ = useComputed(
-    () => state$.pinnedCoin.priceHistory.get()?.at(-1) ?? 0,
-  );
+  const computedPrice$ = useComputed(() => {
+    const priceInDollar = state$.pinnedCoin.priceHistory.get()?.at(-1);
+    const isCurrencyDollar = settings$.isCurrencyDollar.get();
+    const dollarPriceInToman = state$.dollarPriceInToman.peek();
+
+    if (!priceInDollar) return 0;
+
+    return isCurrencyDollar
+      ? priceInDollar
+      : priceInDollar * dollarPriceInToman;
+  });
 
   return (
     <View style={styles.container}>

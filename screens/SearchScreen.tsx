@@ -40,6 +40,7 @@ function SearchScreen() {
               debouncedText$={search$.debouncedText}
               placeholder='Search coins ...'
               showIcon
+              autoFocus
             />
           }
           ListEmptyComponent={
@@ -60,6 +61,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: BLACK,
+    paddingTop: '25%',
+    paddingHorizontal: 15,
   },
   text: {
     color: WHITE,

@@ -12,13 +12,7 @@ type TextFieldProps = TextInputProps & {
 };
 
 function TextField(props: TextFieldProps) {
-  const {
-    defaultValue,
-    autoFocus = false,
-    showIcon,
-    debouncedText$,
-    ...rest
-  } = props;
+  const {defaultValue, showIcon, debouncedText$, ...rest} = props;
   const textInputRef = useRef<TextInput>(null);
   let timerId: NodeJS.Timeout;
 
@@ -42,7 +36,6 @@ function TextField(props: TextFieldProps) {
       <TextInput
         defaultValue={defaultValue}
         ref={textInputRef}
-        autoFocus={autoFocus}
         style={styles.textInput}
         onChangeText={onChangeText}
         placeholderTextColor={WHITE}
